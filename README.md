@@ -67,9 +67,9 @@ Upload `dist/` as usual, minus `home-full.html.bak`. The interim page uses the s
 | Reviews | `src/content/reviews.json` (the section stays hidden until it holds 3 real reviews) |
 | Hidden SEO pages | `src/content/pages/*.md` |
 | Blog posts | `src/content/blog/*.md` (a post whose body is `(Paste article body here.)` is left out of the build) |
-| Gallery photos and captions | `src/assets/gallery/` and `src/assets/gallery/gallery.json` |
-| Hero photo | `src/assets/hero.jpg` (until it exists the hero shows a dark stone gradient) |
-| About and service card photos | `src/assets/about.jpg`, `src/assets/services/{kitchens,bathrooms,specialty}.jpg` |
+| Gallery photos; alt text and captions for every photo | `src/assets/gallery/` and `src/assets/gallery/gallery.json` |
+| Hero photo | `src/assets/hero.jpg` (if the file is missing the hero falls back to a dark stone gradient) |
+| About and service card photos | `src/assets/about.jpg`, `src/assets/services/service-{kitchen,bath,specialty}.jpg` |
 | 301 map | `data/redirects.csv` and `data/htaccess-redirects.txt` (source for the generated `.htaccess` and `_redirects`) |
 | Design tokens | `src/styles/global.css` |
 
@@ -90,13 +90,13 @@ Formspree file uploads need a paid Formspree plan; on the free plan the photo fi
 
 ## Lighthouse (mobile)
 
-Run on 2026-11-19 with Lighthouse's default mobile throttling. No hero photo, GTM, CallRail, or Instagram embed was present, so re-run once those are in.
+Run on 2026-11-19 with Lighthouse's default mobile throttling. No GTM, CallRail, or Instagram embed was present, so re-run once those are in. The staging rows and the inner-page rows predate the hero photo; inner pages do not use it.
 
 | Page | Where | Performance | Accessibility | Best Practices | SEO |
 | --- | --- | --- | --- | --- | --- |
 | `/` | staging | 99 to 100 (three runs) | 100 | 100 | 69 |
 | `/quartz-countertops/` | staging | 100 | 100 | 100 | 66 |
-| `/` | localhost, production build | 100 | 100 | 100 | 100 |
+| `/` | localhost, production build, with the hero photo | 96 (LCP 2.6 s) | 100 | 100 | 100 |
 | `/quartz-countertops/` | localhost, production build | 100 | 100 | 100 | 100 |
 | `/countertops-utah-county/` | localhost, production build | 100 | 100 | 100 | 100 |
 | `/blog/why-people-are-choosing-quartz-for-their-new-countertops/` | localhost, production build | 100 | 100 | 100 | 100 |

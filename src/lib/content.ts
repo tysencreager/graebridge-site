@@ -27,7 +27,14 @@ export const reviews = {
   items: (reviewsData.reviews as Review[]).filter(isReal),
 };
 
-/* Gallery: every image in src/assets/gallery/, ordered and captioned by gallery.json. */
+/* Site photos: src/assets/gallery/gallery.json lists all of them with a role, alt text, and (for the gallery) captions. */
+interface ImageMeta { file: string; role?: 'hero' | 'about' | 'service' | 'gallery'; alt?: string; caption?: string; detail?: string }
+const imageMeta = galleryMeta.images as ImageMeta[];
+
+/** Alt text for a named photo (hero.jpg, about.jpg, service-kitchen.jpg, ...). */
+export const altFor = (file: string, fallback = ''): string => imageMeta.find((m) => m.file === file)?.alt ?? fallback;
+
+/* Gallery: the role "gallery" entries in listed order, then any other image found in src/assets/gallery/. */
 export interface GalleryImage { file: string; image: ImageMetadata; alt: string; caption: string; detail: string }
 const files = import.meta.glob<{ default: ImageMetadata }>('../assets/gallery/*.{jpg,jpeg,png,webp,avif}', { eager: true });
 const fromName = (file: string) => {
@@ -38,9 +45,8 @@ const fromName = (file: string) => {
 export const gallery: GalleryImage[] = (() => {
   const byFile = new Map<string, ImageMetadata>();
   for (const [path, mod] of Object.entries(files)) byFile.set(path.split('/').pop()!, mod.default);
-  const meta = galleryMeta.images as { file: string; alt?: string; caption?: string; detail?: string }[];
   const out: GalleryImage[] = [];
-  for (const m of meta) {
+  for (const m of imageMeta.filter((x) => (x.role ?? 'gallery') === 'gallery')) {
     const image = byFile.get(m.file);
     if (!image) continue;
     out.push({ file: m.file, image, alt: m.alt || fromName(m.file), caption: m.caption ?? '', detail: m.detail ?? '' });

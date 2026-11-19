@@ -2,6 +2,7 @@
 import { Picture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { section, field, list, emph } from '../../lib/home';
+import { altFor } from '../../lib/content';
 
 const s = section('ABOUT');
 const stats = list(s, 'Stats');
@@ -19,7 +20,7 @@ const image = Object.values(files)[0]?.default;
             formats={['avif', 'webp']}
             widths={[480, 720, 960].filter((w) => w <= image.width)}
             sizes="(min-width: 1024px) 38rem, 92vw"
-            alt="A member of the Graebridge Stone team leaning on a polished grey-veined stone island in a white kitchen"
+            alt={altFor('about.jpg', 'Graebridge Stone team member at a stone kitchen island')}
             loading="lazy"
           />
         ) : (
