@@ -152,9 +152,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* Prose (hidden SEO pages, blog posts, privacy policy) */
 .prose { max-width: 46rem; color: var(--stone-700); font-size: 1.0625rem; line-height: 1.8; }
 .prose > * + * { margin-top: 1.25rem; }
-.prose h2 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.75rem, 3.2vw, 2.25rem); line-height: 1.2; color: var(--stone-900); margin-top: 3rem; text-wrap: balance; }
-.prose h3 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.4rem, 2.4vw, 1.75rem); line-height: 1.25; color: var(--stone-900); margin-top: 2.75rem; padding-top: 2rem; border-top: 1px solid var(--stone-200); text-wrap: balance; }
-.prose h2 + h3, .prose > h3:first-child { margin-top: 1.5rem; padding-top: 0; border-top: 0; }
+.prose h2 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.5rem, 2.6vw, 1.875rem); line-height: 1.25; color: var(--stone-900); margin-top: 2.75rem; padding-top: 2rem; border-top: 1px solid var(--stone-200); text-wrap: balance; }
+.prose h3 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.2rem, 2vw, 1.375rem); line-height: 1.3; color: var(--stone-900); margin-top: 2.25rem; text-wrap: balance; }
+.prose h4 { font-family: var(--font-sans); font-size: 1.0625rem; font-weight: 600; color: var(--stone-900); margin-top: 2rem; }
+.prose > h2:first-child { padding-top: 0; border-top: 0; }
 .prose > :first-child { margin-top: 0; }
 .prose strong { color: var(--stone-900); font-weight: 600; }
 .prose a { color: var(--stone-900); font-weight: 500; text-decoration: underline; text-decoration-color: var(--gold-400); text-decoration-thickness: 2px; text-underline-offset: 0.2em; transition: background-color 0.2s; }

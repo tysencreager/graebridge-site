@@ -5,12 +5,16 @@ const strip = (html: string) => html.replace(/<[^>]+>/g, '').replace(/&amp;/g, '
 
 /**
  * 1. Drops the leading heading when it repeats the page H1 (the template prints the H1 itself).
- * 2. Swaps the literal token PHONE for a click-to-call link showing the config phone number.
+ * 2. Keeps the outline in order under that H1: when the body's top level is h3, h3 becomes h2 and h4 becomes h3.
+ * 3. Swaps the literal token PHONE for a click-to-call link showing the config phone number.
  */
 export function proseHtml(html: string, heading?: string): string {
   let out = html.trim();
   const first = out.match(/^<h([12])[^>]*>([\s\S]*?)<\/h\1>\s*/);
   if (first && heading && strip(first[2]) === heading.trim()) out = out.slice(first[0].length);
+  if (!/<h2[\s>]/.test(out)) {
+    out = out.replace(/<(\/?)h([34])(?=[\s>])/g, (_m, close, level) => `<${close}h${Number(level) - 1}`);
+  }
   const call = `<a href="${telHref}" data-event="call_click" data-label="body">${site.phoneDisplay}</a>`;
   // Inside an existing link the token becomes plain text; elsewhere it becomes the call link.
   out = out.replace(/(<a\b[^>]*>)([^<]*)\bPHONE\b([^<]*)(<\/a>)/g, (_m, a, pre, post, z) => `${a}${pre}${site.phoneDisplay}${post}${z}`);
