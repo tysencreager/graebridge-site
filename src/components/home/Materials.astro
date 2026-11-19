@@ -1,7 +1,9 @@
 ---
+import { Picture } from 'astro:assets';
 import { section, field, list } from '../../lib/home';
+import { texture } from '../../lib/photos';
 const s = section('MATERIALS');
-const cards = list(s, 'Cards');
+const cards = list(s, 'Cards').map((c) => ({ ...c, texture: texture(c.title) }));
 ---
 <section id={s.id} class="section section--white">
   <div class="container">
@@ -15,14 +17,28 @@ const cards = list(s, 'Cards');
     <ul role="list" class="cards">
       {cards.map((c, i) => (
         <li class="card">
-          <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-          <h3>{c.title}</h3>
-          <p>{c.body}</p>
-          {c.link?.href && (
-            <a class="link-underline" href={c.link.href}>
-              Learn more<span class="sr-only"> about {c.title.toLowerCase()}</span>
-            </a>
+          {c.texture && (
+            <div class="swatch">
+              <Picture
+                src={c.texture.image}
+                formats={['avif', 'webp']}
+                width={c.texture.image.width}
+                sizes="(min-width: 1024px) 26rem, (min-width: 640px) 46vw, 92vw"
+                alt={c.texture.alt}
+                loading="lazy"
+              />
+            </div>
           )}
+          <div class="body">
+            <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{c.title}</h3>
+            <p>{c.body}</p>
+            {c.link?.href && (
+              <a class="link-underline" href={c.link.href}>
+                Learn more<span class="sr-only"> about {c.title.toLowerCase()}</span>
+              </a>
+            )}
+          </div>
         </li>
       ))}
     </ul>
@@ -33,7 +49,12 @@ const cards = list(s, 'Cards');
   .cards { display: grid; gap: 1.5rem; }
   @media (min-width: 640px) { .cards { grid-template-columns: repeat(2, 1fr); } }
   @media (min-width: 1024px) { .cards { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
-  .card { position: relative; display: flex; flex-direction: column; align-items: flex-start; padding: 2.5rem 2rem 2.25rem; background: var(--stone-50); border: 1px solid var(--stone-200); transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; }
+  .card { position: relative; display: flex; flex-direction: column; overflow: hidden; background: var(--stone-50); border: 1px solid var(--stone-200); transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s; }
+  .swatch { aspect-ratio: 5 / 2; overflow: hidden; background: var(--stone-200); border-bottom: 1px solid var(--stone-200); }
+  .swatch :global(picture), .swatch :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .swatch :global(img) { transition: transform 0.9s var(--ease); }
+  .card:hover .swatch :global(img) { transform: scale(1.08); }
+  .body { display: flex; flex-direction: column; align-items: flex-start; flex: 1; padding: 2rem 2rem 2.25rem; }
   .card:hover { border-color: var(--stone-300); box-shadow: 0 20px 40px -24px rgb(28 26 25 / 0.35); transform: translateY(-2px); }
   .num { font-family: var(--font-serif); font-style: italic; font-size: 0.9375rem; color: var(--stone-600); padding-bottom: 0.4rem; border-bottom: 2px solid var(--gold-400); margin-bottom: 1.5rem; }
   h3 { font-family: var(--font-serif); font-weight: 400; font-size: 1.5rem; color: var(--stone-900); }

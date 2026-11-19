@@ -69,7 +69,10 @@ Upload `dist/` as usual, minus `home-full.html.bak`. The interim page uses the s
 | Blog posts | `src/content/blog/*.md` (a post whose body is `(Paste article body here.)` is left out of the build) |
 | Gallery photos; alt text and captions for every photo | `src/assets/gallery/` and `src/assets/gallery/gallery.json` |
 | Hero photo | `src/assets/hero.jpg` (if the file is missing the hero falls back to a dark stone gradient) |
-| About and service card photos | `src/assets/about.jpg`, `src/assets/services/service-{kitchen,bath,specialty}.jpg` |
+| About photos (owners portrait and shop team) | `src/assets/about.jpg`, `src/assets/team.jpg` |
+| Service card photos | `src/assets/services/service-{kitchen,bath,specialty}.jpg` |
+| Material card textures | `src/assets/materials/<card>.jpg` and `materials.json` (matched by look; needs the client's confirmation) |
+| Header photo and work strip on each inner page and blog post | `src/content/page-images.json`, drawing on `src/assets/gallery`, `services`, and `work` |
 | 301 map | `data/redirects.csv` and `data/htaccess-redirects.txt` (source for the generated `.htaccess` and `_redirects`) |
 | Design tokens | `src/styles/global.css` |
 
@@ -90,16 +93,16 @@ Formspree file uploads need a paid Formspree plan; on the free plan the photo fi
 
 ## Lighthouse (mobile)
 
-Run on 2026-11-19 with Lighthouse's default mobile throttling. No GTM, CallRail, or Instagram embed was present, so re-run once those are in. The staging rows and the inner-page rows predate the hero photo; inner pages do not use it.
+Run on 2026-11-19 with Lighthouse's default mobile throttling. No GTM, CallRail, or Instagram embed was present, so re-run once those are in. The localhost rows include the hero photo, the header photos, and the work strips.
 
 | Page | Where | Performance | Accessibility | Best Practices | SEO |
 | --- | --- | --- | --- | --- | --- |
-| `/` | staging | 99 to 100 (three runs) | 100 | 100 | 69 |
-| `/quartz-countertops/` | staging | 100 | 100 | 100 | 66 |
-| `/` | localhost, production build, with the hero photo | 96 (LCP 2.6 s) | 100 | 100 | 100 |
-| `/quartz-countertops/` | localhost, production build | 100 | 100 | 100 | 100 |
-| `/countertops-utah-county/` | localhost, production build | 100 | 100 | 100 | 100 |
-| `/blog/why-people-are-choosing-quartz-for-their-new-countertops/` | localhost, production build | 100 | 100 | 100 | 100 |
+| `/` | localhost, production build | 96 (LCP 2.7 s) | 100 | 100 | 100 |
+| `/granite-countertops/` | localhost, production build | 99 | 100 | 100 | 100 |
+| `/blog/` | localhost, production build | 99 | 100 | 100 | 100 |
+| `/blog/what-makes-soapstone-countertops-a-favorite-for-timeless-kitchen-designs/` | localhost, production build | 99 | 100 | 100 | 100 |
 | `/interim/` | localhost, production build | 100 | 100 | 100 | 100 |
+| `/` | staging, before the photos were added | 99 to 100 (three runs) | 100 | 100 | 69 |
+| `/quartz-countertops/` | staging, before the photos were added | 100 | 100 | 100 | 66 |
 
 The SEO score on staging is low for one reason only: Lighthouse's "page is blocked from indexing" audit, which is the staging noindex doing its job. The production build has no noindex and scores 100. One staging run of `/` scored 82 on performance from a main-thread spike on the test machine; three repeat runs scored 100, 99, and 100.

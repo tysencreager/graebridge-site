@@ -3,7 +3,9 @@ import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { livePosts, postPath, formatDate } from '../../lib/blog';
-import { proseHtml, firstSentence } from '../../lib/prose';
+import WorkStrip from '../../components/WorkStrip.astro';
+import { proseHtml, firstSentence, splitIntro } from '../../lib/prose';
+import { pagePhotos } from '../../lib/photos';
 import { breadcrumbs } from '../../lib/schema';
 import { site, canonical } from '../../lib/site';
 
@@ -16,7 +18,8 @@ const { entry, posts } = Astro.props;
 const { data } = entry;
 const path = postPath(entry);
 const description = data.description || firstSentence(entry.body ?? '');
-const html = proseHtml(entry.rendered?.html ?? '', data.title);
+const [introHtml, restHtml] = splitIntro(proseHtml(entry.rendered?.html ?? '', data.title));
+const photos = pagePhotos('blog', entry.id);
 const more = posts.filter((p) => p.id !== entry.id).slice(0, 3);
 const iso = data.date.toISOString().slice(0, 10);
 
@@ -38,12 +41,14 @@ const crumbs = breadcrumbs([
 ]);
 ---
 <Base title={data.title} description={description} path={path} ogType="article" jsonld={[article, crumbs]}>
-  <PageHero kicker="Blog" title={data.title} crumbs={[{ label: 'Home', href: '/' }, { label: 'Blog', href: '/blog/' }, { label: 'Article' }]} />
+  <PageHero kicker="Blog" title={data.title} crumbs={[{ label: 'Home', href: '/' }, { label: 'Blog', href: '/blog/' }, { label: 'Article' }]} photo={photos.hero} />
 
   <article class="section post">
     <div class="container">
       <p class="meta">By {data.author} · <time datetime={iso}>{formatDate(data.date)}</time></p>
-      <div class="prose" set:html={html} />
+      {introHtml && <div class="prose" set:html={introHtml} />}
+      <WorkStrip photos={photos.work} />
+      <div class="prose" set:html={restHtml} />
     </div>
   </article>
 

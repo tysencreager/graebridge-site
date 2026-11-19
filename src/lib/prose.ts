@@ -35,3 +35,9 @@ export function firstSentence(markdown: string): string {
     .replace(/\s+/g, ' ');
   return text.match(/^.*?[.!?](?=\s|$)/)?.[0] ?? text;
 }
+
+/** Splits rendered prose into the intro (everything before the first h2) and the rest. */
+export function splitIntro(html: string): [string, string] {
+  const at = html.search(/<h2[\s>]/);
+  return at > 0 ? [html.slice(0, at), html.slice(at)] : ['', html];
+}

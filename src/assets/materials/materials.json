@@ -1,0 +1,11 @@
+{
+  "_note": "Texture bands on the home page material cards. Each is a close crop of stone in one of the client's own project photos, matched to the card by look only. Nobody has confirmed which material each slab is: have Ned confirm each one, or replace the file with a photo of the right slab under the same name (about 800x320, any size works).",
+  "textures": {
+    "quartz": { "alt": "Close-up of a white countertop with soft gray veining", "source": "graebridge-stone-bathroom-gallery (8)" },
+    "granite": { "alt": "Close-up of a cream stone countertop with brown and gold mineral flecks", "source": "graebridge-stone-bathroom-gallery (7)" },
+    "quartzite-marble": { "alt": "Close-up of a polished white stone island with fine gray veining", "source": "graebridge-stone-kitchen-gallery (12)" },
+    "porcelain": { "alt": "Close-up of a large white wall slab with a band of gray veining", "source": "graebridge-stone-bathroom-gallery (23)" },
+    "soapstone": { "alt": "Close-up of a honed charcoal black countertop", "source": "graebridge-stone-gallery-001" },
+    "edge-profiles-finishes": { "alt": "Close-up of a thick mitered apron edge on a gold-veined stone vanity", "source": "graebridge-stone-bathroom-gallery (17)" }
+  }
+}

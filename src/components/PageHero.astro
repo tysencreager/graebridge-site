@@ -1,11 +1,15 @@
 ---
 // Slim dark hero for every inner page: breadcrumbs, kicker, the page H1, and a one-sentence intro.
+import { Picture } from 'astro:assets';
+import type { Photo } from '../lib/photos';
+
 interface Crumb { label: string; href?: string }
-interface Props { kicker?: string; title: string; intro?: string; crumbs?: Crumb[] }
-const { kicker, title, intro, crumbs = [] } = Astro.props;
+interface Props { kicker?: string; title: string; intro?: string; crumbs?: Crumb[]; photo?: Photo }
+const { kicker, title, intro, crumbs = [], photo } = Astro.props;
 ---
 <header class="page-hero on-dark">
-  <div class="container">
+  <div class:list={['container', { split: !!photo }]}>
+    <div class="text">
     {crumbs.length > 0 && (
       <nav class="crumbs" aria-label="Breadcrumb">
         <ol role="list">
@@ -21,6 +25,20 @@ const { kicker, title, intro, crumbs = [] } = Astro.props;
     {kicker && <span class="kicker">{kicker}</span>}
     <h1>{title}</h1>
     {intro && <p class="intro">{intro}</p>}
+    </div>
+    {photo && (
+      <div class="photo">
+        <Picture
+          src={photo.image}
+          formats={['avif', 'webp']}
+          widths={[400, 600, 800, 1100].filter((w) => w <= photo.image.width)}
+          sizes="(min-width: 960px) 34rem, 92vw"
+          alt={photo.alt}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    )}
   </div>
 </header>
 
@@ -34,6 +52,13 @@ const { kicker, title, intro, crumbs = [] } = Astro.props;
       radial-gradient(90% 120% at 12% 0%, rgb(222 203 192 / 0.14), transparent 60%),
       linear-gradient(160deg, #35312e 0%, var(--stone-900) 55%, var(--stone-950) 100%);
   }
+  .split { display: grid; gap: 2.5rem; align-items: center; }
+  @media (min-width: 960px) { .split { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 4rem; } }
+  .photo { position: relative; }
+  .photo::before { content: ''; position: absolute; inset: -0.75rem 0.75rem 0.75rem -0.75rem; border: 1px solid rgb(212 175 55 / 0.55); }
+  .photo :global(picture) { position: relative; display: block; }
+  .photo :global(img) { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5); }
+  @media (max-width: 959.98px) { .photo { margin-left: 0.75rem; } .photo :global(img) { aspect-ratio: 16 / 10; } }
   .crumbs { margin-bottom: 2rem; font-size: 0.8125rem; letter-spacing: 0.04em; color: var(--stone-300); }
   .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.25rem 0; }
   .crumbs li { display: inline-flex; align-items: center; }

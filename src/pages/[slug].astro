@@ -4,7 +4,9 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { proseHtml, firstSentence } from '../lib/prose';
+import WorkStrip from '../components/WorkStrip.astro';
+import { proseHtml, firstSentence, splitIntro } from '../lib/prose';
+import { pagePhotos } from '../lib/photos';
 import { hiddenPage } from '../lib/schema';
 
 export async function getStaticPaths() {
@@ -20,7 +22,8 @@ if (data.slug !== path) throw new Error(`${entry.id}.md: frontmatter slug "${dat
 const isArea = data.section === 'Service Areas';
 const name = isArea ? `Countertops in ${data.short_title}` : data.short_title;
 const body = (entry.body ?? '').replace(/^\s*#{1,2} .*\n/, '');
-const html = proseHtml(entry.rendered?.html ?? '', data.h1);
+const [introHtml, restHtml] = splitIntro(proseHtml(entry.rendered?.html ?? '', data.h1));
+const photos = pagePhotos('pages', entry.id);
 
 const order = ['Materials', 'Services', 'Service Areas'];
 const related = all
@@ -33,11 +36,14 @@ const related = all
     title={data.h1}
     intro={firstSentence(body)}
     crumbs={[{ label: 'Home', href: '/' }, { label: data.short_title }]}
+    photo={photos.hero}
   />
 
   <article class="section body">
     <div class="container">
-      <div class="prose" set:html={html} />
+      {introHtml && <div class="prose" set:html={introHtml} />}
+      <WorkStrip photos={photos.work} />
+      <div class="prose" set:html={restHtml} />
     </div>
   </article>
 

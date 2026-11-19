@@ -2,9 +2,11 @@
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import { Picture } from 'astro:assets';
 import { livePosts, postPath, formatDate } from '../../lib/blog';
+import { pagePhotos } from '../../lib/photos';
 
-const posts = await livePosts();
+const posts = (await livePosts()).map((p) => ({ post: p, thumb: pagePhotos('blog', p.id).hero }));
 ---
 <Base
   title="Countertop Advice and Ideas | Graebridge Stone Blog"
@@ -20,13 +22,20 @@ const posts = await livePosts();
         <p class="empty">Articles are on the way. In the meantime, <a href="/#faq">see the questions we hear every week</a>.</p>
       ) : (
         <ul role="list" class="posts">
-          {posts.map((p) => (
+          {posts.map(({ post: p, thumb }) => (
             <li>
               <article>
-                <time datetime={p.data.date.toISOString().slice(0, 10)}>{formatDate(p.data.date)}</time>
-                <h2><a href={postPath(p)}>{p.data.title}</a></h2>
-                {p.data.description && <p>{p.data.description}</p>}
-                <a class="link-underline" href={postPath(p)}>Read more<span class="sr-only">: {p.data.title}</span></a>
+                {thumb && (
+                  <a class="thumb" href={postPath(p)} tabindex="-1" aria-hidden="true">
+                    <Picture src={thumb.image} formats={['avif', 'webp']} widths={[320, 480, 640].filter((w) => w <= thumb.image.width)} sizes="(min-width: 768px) 18rem, 92vw" alt="" loading="lazy" />
+                  </a>
+                )}
+                <div>
+                  <time datetime={p.data.date.toISOString().slice(0, 10)}>{formatDate(p.data.date)}</time>
+                  <h2><a href={postPath(p)}>{p.data.title}</a></h2>
+                  {p.data.description && <p>{p.data.description}</p>}
+                  <a class="link-underline" href={postPath(p)}>Read more<span class="sr-only">: {p.data.title}</span></a>
+                </div>
               </article>
             </li>
           ))}
@@ -40,7 +49,13 @@ const posts = await livePosts();
 
 <style>
   .list { background: var(--white); padding-block: clamp(3rem, 6vw, 5rem); }
-  .posts { max-width: 52rem; }
+  .posts { max-width: 60rem; }
+  article { display: grid; gap: 1.5rem; }
+  @media (min-width: 768px) { article { grid-template-columns: 18rem 1fr; gap: 2.5rem; align-items: start; } }
+  .thumb { display: block; overflow: hidden; aspect-ratio: 4 / 3; background: var(--stone-200); }
+  .thumb :global(picture), .thumb :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .thumb :global(img) { transition: transform 0.7s var(--ease); }
+  article:hover .thumb :global(img) { transform: scale(1.04); }
   .posts li { padding-block: 2.5rem; border-bottom: 1px solid var(--stone-200); }
   .posts li:first-child { padding-top: 0; }
   time { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone-600); }

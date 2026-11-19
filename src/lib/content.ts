@@ -32,7 +32,7 @@ export const reviews = {
 };
 
 /* Site photos: src/assets/gallery/gallery.json lists all of them with a role, alt text, and (for the gallery) captions. */
-interface ImageMeta { file: string; role?: 'hero' | 'about' | 'service' | 'gallery'; alt?: string; caption?: string; detail?: string }
+interface ImageMeta { file: string; role?: 'hero' | 'about' | 'team' | 'service' | 'gallery'; alt?: string; caption?: string; detail?: string }
 const imageMeta = galleryMeta.images as ImageMeta[];
 
 /** Alt text for a named photo (hero.jpg, about.jpg, service-kitchen.jpg, ...). */
