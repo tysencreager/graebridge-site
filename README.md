@@ -26,12 +26,14 @@ npm run build && npm run preview   # serves dist/ the way SiteGround will, inclu
 ```bash
 npm run check:redirects -- http://localhost:4321                 # all 129 rules, anchors included
 npm run check:redirects -- http://localhost:4321 --skip-anchors  # page-to-page rules only
-npm run check:redirects -- https://<staging>.pages.dev --allow-308   # Cloudflare answers slash-only rules with 308
+npm run check:redirects -- https://claude-graebridge-stone-buil.graebridge-site.pages.dev --allow-308   # Cloudflare answers slash-only rules with 308
 ```
 
-Fails on anything other than a 301 to the target in `data/redirects.csv`.
+Fails on anything other than a 301 to the target in `data/redirects.csv`. 5xx answers and network errors are retried twice; add `--concurrency 2` if a host throttles parallel requests.
 
 ## Deploy to staging (Cloudflare Pages)
+
+Staging URL for the pull request branch: https://claude-graebridge-stone-buil.graebridge-site.pages.dev (noindex). Setup, for reference:
 
 1. Cloudflare dashboard: Workers & Pages, Create, Pages, Connect to Git, pick this repository.
 2. Production branch: the branch that holds the site. Until the pull request is merged that is `claude/graebridge-stone-build-9g29tm`, not `main` (`main` has no `package.json` yet, so building it fails with "Could not read package.json").
@@ -88,12 +90,16 @@ Formspree file uploads need a paid Formspree plan; on the free plan the photo fi
 
 ## Lighthouse (mobile)
 
-Run on 2026-11-19 against `npm run preview` on localhost with Lighthouse's default mobile throttling. No hero photo, GTM, CallRail, or Instagram embed was present, so re-run on the staging URL once those are in.
+Run on 2026-11-19 with Lighthouse's default mobile throttling. No hero photo, GTM, CallRail, or Instagram embed was present, so re-run once those are in.
 
-| Page | Performance | Accessibility | Best Practices | SEO |
-| --- | --- | --- | --- | --- |
-| `/` | 100 | 100 | 100 | 100 |
-| `/quartz-countertops/` | 100 | 100 | 100 | 100 |
-| `/countertops-utah-county/` | 100 | 100 | 100 | 100 |
-| `/blog/why-people-are-choosing-quartz-for-their-new-countertops/` | 100 | 100 | 100 | 100 |
-| `/interim/` | 100 | 100 | 100 | 100 |
+| Page | Where | Performance | Accessibility | Best Practices | SEO |
+| --- | --- | --- | --- | --- | --- |
+| `/` | staging | 99 to 100 (three runs) | 100 | 100 | 69 |
+| `/quartz-countertops/` | staging | 100 | 100 | 100 | 66 |
+| `/` | localhost, production build | 100 | 100 | 100 | 100 |
+| `/quartz-countertops/` | localhost, production build | 100 | 100 | 100 | 100 |
+| `/countertops-utah-county/` | localhost, production build | 100 | 100 | 100 | 100 |
+| `/blog/why-people-are-choosing-quartz-for-their-new-countertops/` | localhost, production build | 100 | 100 | 100 | 100 |
+| `/interim/` | localhost, production build | 100 | 100 | 100 | 100 |
+
+The SEO score on staging is low for one reason only: Lighthouse's "page is blocked from indexing" audit, which is the staging noindex doing its job. The production build has no noindex and scores 100. One staging run of `/` scored 82 on performance from a main-thread spike on the test machine; three repeat runs scored 100, 99, and 100.
