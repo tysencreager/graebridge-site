@@ -40,6 +40,8 @@ const url = canonical(path);
 const image = canonical(ogImage);
 const gtm = isSet(site.gtmId) ? site.gtmId : null;
 const callrail = site.callrailSwapSrc?.trim() || null;
+// Feedbucket (review feedback widget): staging builds only.
+const feedbucket = isStaging && site.feedbucketKey?.trim() ? site.feedbucketKey.trim() : null;
 ---
 <!doctype html>
 <html lang="en">
@@ -108,5 +110,16 @@ const callrail = site.callrailSwapSrc?.trim() || null;
       });
     </script>
     {callrail && <script is:inline async src={callrail}></script>}
+    {feedbucket && (
+      <script is:inline define:vars={{ feedbucket }}>
+        (function (k) {
+          var s = document.createElement('script');
+          s.defer = true;
+          s.src = 'https://cdn.feedbucket.app/assets/feedbucket.js';
+          s.dataset.feedbucket = k;
+          document.head.appendChild(s);
+        })(feedbucket);
+      </script>
+    )}
   </body>
 </html>

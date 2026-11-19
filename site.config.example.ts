@@ -21,4 +21,5 @@ export const site = {
   callrailSwapSrc: "",            // TODO: //cdn.callrail.com/companies/XXXX/XXXX/12/swap.js
   formspreeEndpoint: "https://formspree.io/f/XXXXXXXX", // TODO
   instagramEmbed: "",             // TODO: paste Behold/SnapWidget embed; empty hides the section
+  feedbucketKey: "", // Feedbucket project key. The feedback widget loads on staging builds only, never in production.
 };

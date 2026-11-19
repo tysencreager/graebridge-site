@@ -88,6 +88,7 @@ Upload `dist/` as usual, minus `home-full.html.bak`. The interim page uses the s
 | `gbpReviewUrl` | the reviews button falls back to the Google Maps listing |
 | `mapsEmbedSrc` | the map is a keyless embed of the address |
 | `instagramEmbed` | the Instagram section is hidden |
+| `feedbucketKey` | set; the Feedbucket feedback widget loads on staging builds only (`PUBLIC_ENV=staging`) and never in production |
 
 Formspree file uploads need a paid Formspree plan; on the free plan the photo field is dropped.
 
