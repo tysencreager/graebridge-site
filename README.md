@@ -33,10 +33,11 @@ Fails on anything other than a 301 to the target in `data/redirects.csv`.
 
 ## Deploy to staging (Cloudflare Pages)
 
-1. Cloudflare dashboard: Workers & Pages, Create, Pages, Connect to Git, pick this repository and branch.
-2. Build command `npm run build`, output directory `dist`.
-3. Environment variables: `PUBLIC_ENV=staging` and `NODE_VERSION=22.23.5`.
-4. Save and deploy. Every push to the branch redeploys. `public/_redirects` gives staging the same 301 map.
+1. Cloudflare dashboard: Workers & Pages, Create, Pages, Connect to Git, pick this repository.
+2. Production branch: the branch that holds the site. Until the pull request is merged that is `claude/graebridge-stone-build-9g29tm`, not `main` (`main` has no `package.json` yet, so building it fails with "Could not read package.json").
+3. Build command `npm run build`, output directory `dist`.
+4. Environment variables, for both Production and Preview: `PUBLIC_ENV=staging` and `NODE_VERSION=22.23.5`.
+5. Save and deploy. Every push to the branch redeploys. `public/_redirects` gives staging the same 301 map.
 
 ## Deploy to production (SiteGround)
 
