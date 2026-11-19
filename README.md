@@ -71,7 +71,7 @@ Upload `dist/` as usual, minus `home-full.html.bak`. The interim page uses the s
 | Hero photo | `src/assets/hero.jpg` (if the file is missing the hero falls back to a dark stone gradient) |
 | About photos (owners portrait and shop team) | `src/assets/about.jpg`, `src/assets/team.jpg` |
 | Service card photos | `src/assets/services/service-{kitchen,bath,specialty}.jpg` |
-| Material card textures | `src/assets/materials/<card>.jpg` and `materials.json` (matched by look; needs the client's confirmation) |
+| Material card textures | `src/assets/materials/<card>.jpg` and `materials.json` (free-license stock, with credits and sources; porcelain and soapstone are stand-ins) |
 | Header photo and work strip on each inner page and blog post | `src/content/page-images.json`, drawing on `src/assets/gallery`, `services`, and `work` |
 | 301 map | `data/redirects.csv` and `data/htaccess-redirects.txt` (source for the generated `.htaccess` and `_redirects`) |
 | Design tokens | `src/styles/global.css` |

@@ -1,11 +1,11 @@
 {
-  "_note": "Texture bands on the home page material cards. Each is a close crop of stone in one of the client's own project photos, matched to the card by look only. Nobody has confirmed which material each slab is: have Ned confirm each one, or replace the file with a photo of the right slab under the same name (about 800x320, any size works).",
+  "_note": "Texture bands on the home page material cards. These are free-license stock photos (downloaded and self-hosted, cropped to 1400x560), not photos of Graebridge Stone's own slabs. Two are stand-ins: no free stock photo labeled porcelain slab or soapstone was found, so porcelain uses a white marble slab wall and soapstone uses a black marble with white veining. Replace any file with a photo of the real slab under the same name. Unsplash License: free for commercial use, no attribution required. The license=free search filter was used; each photo page was not opened individually.",
   "textures": {
-    "quartz": { "alt": "Close-up of a white countertop with soft gray veining", "source": "graebridge-stone-bathroom-gallery (8)" },
-    "granite": { "alt": "Close-up of a cream stone countertop with brown and gold mineral flecks", "source": "graebridge-stone-bathroom-gallery (7)" },
-    "quartzite-marble": { "alt": "Close-up of a polished white stone island with fine gray veining", "source": "graebridge-stone-kitchen-gallery (12)" },
-    "porcelain": { "alt": "Close-up of a large white wall slab with a band of gray veining", "source": "graebridge-stone-bathroom-gallery (23)" },
-    "soapstone": { "alt": "Close-up of a honed charcoal black countertop", "source": "graebridge-stone-gallery-001" },
-    "edge-profiles-finishes": { "alt": "Close-up of a thick mitered apron edge on a gold-veined stone vanity", "source": "graebridge-stone-bathroom-gallery (17)" }
+    "quartz": { "alt": "Close-up of a white countertop with soft gray and tan veining", "credit": "Rosemary Media", "license": "Unsplash License", "source": "https://unsplash.com/photos/white-countertop-with-subtle-brown-veining-QWTubRKv_Ag" },
+    "granite": { "alt": "Close-up of polished gray granite with black and cream crystals", "credit": "Koesseine granite, Wikimedia Commons", "license": "Public domain", "source": "https://commons.wikimedia.org/wiki/File:Koesseine.jpg" },
+    "quartzite-marble": { "alt": "Close-up of polished white marble with fine gray veining", "credit": "Madison Bracaglia", "license": "Unsplash License", "source": "https://unsplash.com/photos/white-marble-surface-with-grey-veins-fcWAwPKpkTU" },
+    "porcelain": { "alt": "Close-up of a large white slab with sweeping gray veining", "credit": "H&CO", "license": "Unsplash License", "source": "https://unsplash.com/photos/a-close-up-of-a-white-marble-wall-tqu0IOMaiU8", "stand_in": "White marble wall, standing in for a marble-look porcelain slab" },
+    "soapstone": { "alt": "Close-up of a dark charcoal stone surface with white veining", "credit": "Annie Spratt", "license": "Unsplash License", "source": "https://unsplash.com/photos/a-close-up-of-a-black-marble-surface-osuiatBDTww", "stand_in": "Black marble, standing in for soapstone" },
+    "edge-profiles-finishes": { "alt": "Close-up of a white countertop with a recessed, stepped edge above wood slats", "credit": "Ceba Solutions", "license": "Unsplash License", "source": "https://unsplash.com/photos/white-countertop-with-wooden-slats-hlLXymONM5U" }
   }
 }
