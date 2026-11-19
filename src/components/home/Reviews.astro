@@ -2,12 +2,13 @@
 import Icon from '../Icon.astro';
 import { section, field, parseLink } from '../../lib/home';
 import { reviews } from '../../lib/content';
-import { reviewUrl } from '../../lib/site';
+import { site, isSet, reviewUrl } from '../../lib/site';
 
 const s = section('REVIEWS');
 const cta = parseLink(field(s, 'CTA'));
 // Fewer than three real reviews: the section is not rendered. An empty anchor keeps /#reviews (a 301 target) landing here.
 const show = reviews.items.length >= 3;
+const readAll = isSet(site.gbpReviewUrl) ? site.gbpReviewUrl : reviews.readAllUrl || reviewUrl;
 const fmt = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
 ---
 {show ? (
@@ -28,12 +29,12 @@ const fmt = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString('en-US',
                 {Array.from({ length: r.rating }).map(() => <Icon name="star" size={16} />)}
               </div>
               <blockquote>{r.text}</blockquote>
-              <figcaption><strong>{r.name}</strong><time datetime={r.date}>{fmt(r.date)}</time></figcaption>
+              <figcaption><strong>{r.name}</strong>{!reviews.datesApproximate && <time datetime={r.date}>{fmt(r.date)}</time>}<span>{r.source ?? 'Google'} review</span></figcaption>
             </figure>
           </li>
         ))}
       </ul>
-      <p class="more"><a class="btn btn--outline" href={reviewUrl} target="_blank" rel="noopener">{cta.label}</a></p>
+      <p class="more"><a class="btn btn--outline" href={readAll} target="_blank" rel="noopener">{cta.label}</a></p>
     </div>
   </section>
 ) : (
@@ -47,7 +48,7 @@ const fmt = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString('en-US',
   @media (min-width: 900px) { .cards { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
   figure { display: flex; flex-direction: column; gap: 1.25rem; height: 100%; padding: 2.25rem 2rem; background: var(--white); border: 1px solid var(--stone-200); }
   .stars { display: flex; gap: 0.2rem; }
-  blockquote { flex: 1; font-family: var(--font-serif); font-style: italic; font-size: 1.125rem; line-height: 1.6; color: var(--stone-800); }
+  blockquote { flex: 1; font-family: var(--font-serif); font-style: italic; font-size: 1rem; line-height: 1.7; color: var(--stone-800); }
   figcaption { display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone-600); }
   figcaption strong { color: var(--stone-900); }
   .more { margin-top: 3rem; text-align: center; }

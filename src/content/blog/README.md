@@ -4,4 +4,4 @@ Nash: open each source_url, copy the article body into the matching .md file, ke
 - "3 Reasons to Consider Granite" says granite "naturally resists stains"; "3 Things to Consider" says granite "requires regular sealing". Edit the granite post to say it resists stains when sealed.
 - Every post ends with a generic "contact us" paragraph; keep one sentence and link it to /#contact.
 
-Status, Nov 19: all seven bodies were migrated from the live site with the rules above applied and are marked `status: MIGRATED_NEEDS_REVIEW`. They build and publish as they are. Nash: read each one against its source_url, then change the status to `published`. Internal links in the bodies were kept and pointed at the new URLs. Statistics quoted in the posts (Grand View Research, Fixr, HomeAdvisor) were copied as written and have not been checked.
+Status, Nov 19: all seven posts are Nash's files from Drive (Graebridge Stone > content (build-kit updates) > blog), unchanged and marked `status: published`. The granite sealing fix and the one-sentence contact close are applied.

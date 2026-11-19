@@ -24,6 +24,10 @@ const isReal = (r: Review) =>
 export const reviews = {
   rating: reviewsData.rating as number | null,
   count: reviewsData.count as number | null,
+  /** The "Read all reviews" link, when reviews.json carries one. */
+  readAllUrl: (reviewsData as { read_all_url?: string }).read_all_url ?? '',
+  /** Dates taken from Maps' "8 months ago" wording are not shown. */
+  datesApproximate: (reviewsData as { dates_approximate?: boolean }).dates_approximate === true,
   items: (reviewsData.reviews as Review[]).filter(isReal),
 };
 
