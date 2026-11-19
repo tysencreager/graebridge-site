@@ -1,0 +1,23 @@
+---
+import ContactDetails from '../ContactDetails.astro';
+import QuoteForm from '../QuoteForm.astro';
+import { section, field } from '../../lib/home';
+const s = section('CONTACT');
+---
+<section id={s.id} class="section section--dark">
+  <div class="container grid">
+    <div>
+      <span class="kicker">{field(s, 'Kicker')}</span>
+      <h2 class="h2">{field(s, 'H2')}</h2>
+      <p class="muted copy">{field(s, 'Copy')}</p>
+      <ContactDetails />
+    </div>
+    <QuoteForm source="home" />
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; gap: 3.5rem; align-items: start; }
+  @media (min-width: 1024px) { .grid { grid-template-columns: 1fr 1fr; gap: 4rem; } }
+  .copy { margin: 2rem 0 3rem; max-width: 34rem; }
+</style>

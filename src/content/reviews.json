@@ -1,0 +1,15 @@
+{
+  "rating": null,
+  "count": null,
+  "google_review_url": "GBP_REVIEW_URL",
+  "reviews": [
+    {
+      "name": "First L.",
+      "rating": 5,
+      "date": "YYYY-MM-DD",
+      "text": "PASTE REAL GOOGLE REVIEW TEXT",
+      "source": "Google"
+    }
+  ],
+  "_note": "Nash: replace with 6 to 8 real Google reviews (first name + last initial). If this file has no real reviews at build time the section must be hidden, never filled with placeholders."
+}

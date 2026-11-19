@@ -1,0 +1,46 @@
+---
+// Slim dark hero for every inner page: breadcrumbs, kicker, the page H1, and a one-sentence intro.
+interface Crumb { label: string; href?: string }
+interface Props { kicker?: string; title: string; intro?: string; crumbs?: Crumb[] }
+const { kicker, title, intro, crumbs = [] } = Astro.props;
+---
+<header class="page-hero on-dark">
+  <div class="container">
+    {crumbs.length > 0 && (
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol role="list">
+          {crumbs.map((c, i) => (
+            <li>
+              {c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}
+              {i < crumbs.length - 1 && <span class="sep" aria-hidden="true">/</span>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+    {kicker && <span class="kicker">{kicker}</span>}
+    <h1>{title}</h1>
+    {intro && <p class="intro">{intro}</p>}
+  </div>
+</header>
+
+<style>
+  .page-hero {
+    padding: calc(var(--header-h) + clamp(3rem, 7vw, 5rem)) 0 clamp(3rem, 6vw, 4.5rem);
+    color: var(--white);
+    background:
+      linear-gradient(112deg, transparent 0 61.6%, rgb(212 175 55 / 0.1) 61.8% 61.95%, transparent 62.2%),
+      linear-gradient(128deg, transparent 0 78%, rgb(255 255 255 / 0.04) 78.2% 78.5%, transparent 78.8%),
+      radial-gradient(90% 120% at 12% 0%, rgb(222 203 192 / 0.14), transparent 60%),
+      linear-gradient(160deg, #35312e 0%, var(--stone-900) 55%, var(--stone-950) 100%);
+  }
+  .crumbs { margin-bottom: 2rem; font-size: 0.8125rem; letter-spacing: 0.04em; color: var(--stone-300); }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 0.25rem 0; }
+  .crumbs li { display: inline-flex; align-items: center; }
+  .crumbs a { color: var(--stone-300); text-decoration: none; padding-block: 0.25rem; }
+  .crumbs a:hover { color: var(--gold-400); }
+  .crumbs .sep { margin-inline: 0.6rem; color: var(--stone-500); }
+  .crumbs [aria-current] { color: var(--white); }
+  h1 { max-width: 56rem; margin-top: 1rem; font-family: var(--font-serif); font-weight: 400; font-size: clamp(2.25rem, 5.4vw, 3.75rem); line-height: 1.1; text-wrap: balance; }
+  .intro { max-width: 46rem; margin-top: 1.5rem; font-size: clamp(1.0625rem, 1.8vw, 1.1875rem); font-weight: 300; line-height: 1.7; color: var(--stone-200); }
+</style>

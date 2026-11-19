@@ -1,0 +1,41 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { section, field, links } from '../lib/home';
+import { site, telHref, addressFull, directionsUrl } from '../lib/site';
+const areas = links(field(section('SERVICE AREA'), 'Three area links'));
+---
+<Base title="Page Not Found" description="That page is no longer here. Call Graebridge Stone in Lindon, Utah, or pick a service area to keep going." path="/404/" noindex>
+  <PageHero kicker="404" title="We could not find that page." intro="The site is new, and some old links have moved. Here is how to reach us or keep browsing." />
+  <section class="section lost">
+    <div class="container grid">
+      <div>
+        <h2 class="kicker">Reach the shop</h2>
+        <p class="big"><a href={telHref} data-event="call_click" data-label="404">{site.phoneDisplay}</a></p>
+        <p><a href={directionsUrl} target="_blank" rel="noopener" data-event="directions_click" data-label="404">{addressFull}</a></p>
+        <p>{site.hours}. {site.hoursClosed}.</p>
+        <p class="home"><a class="btn btn--dark" href="/">Back to the home page</a></p>
+      </div>
+      <div>
+        <h2 class="kicker">Where we work</h2>
+        <ul role="list">
+          {areas.map((a) => <li><a href={a.href}>{a.label}</a></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lost { background: var(--white); }
+  .grid { display: grid; gap: 3rem; }
+  @media (min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  p { margin-top: 0.75rem; color: var(--stone-600); }
+  p a:not(.btn) { color: var(--stone-900); text-decoration-color: var(--gold-400); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  .big { margin-top: 1.25rem; font-family: var(--font-serif); font-size: 2rem; }
+  .big a { text-decoration: none; }
+  .home { margin-top: 2rem; }
+  ul { margin-top: 1.25rem; border-top: 1px solid var(--stone-200); }
+  li a { display: block; padding: 1.1rem 0.25rem; border-bottom: 1px solid var(--stone-200); font-family: var(--font-serif); font-size: 1.25rem; color: var(--stone-900); text-decoration: none; }
+  li a:hover { border-bottom-color: var(--gold-400); }
+</style>

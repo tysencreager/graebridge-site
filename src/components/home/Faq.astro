@@ -1,0 +1,52 @@
+---
+import Icon from '../Icon.astro';
+import { section, field } from '../../lib/home';
+import { faqs } from '../../lib/content';
+const s = section('FAQ');
+---
+<section id={s.id} class="section">
+  <div class="container grid">
+    <header class="section-head">
+      <span class="rule"></span>
+      <span class="kicker">{field(s, 'Kicker')}</span>
+      <h2 class="h2">{field(s, 'H2')}</h2>
+    </header>
+
+    <div class="list" data-faq>
+      {faqs.map((f) => (
+        <details name="faq">
+          <summary>
+            <h3>{f.q}</h3>
+            <span class="mark"><Icon name="plus" size={20} /></span>
+          </summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  // One open at a time. <details name> already does this in current browsers; this covers the rest.
+  const items = document.querySelectorAll<HTMLDetailsElement>('[data-faq] details');
+  items.forEach((item) =>
+    item.addEventListener('toggle', () => {
+      if (item.open) items.forEach((other) => other !== item && (other.open = false));
+    })
+  );
+</script>
+
+<style>
+  .grid { display: grid; gap: 1rem; }
+  @media (min-width: 1024px) { .grid { grid-template-columns: 5fr 7fr; gap: 5rem; align-items: start; } .section-head { position: sticky; top: calc(var(--header-h) + 2rem); margin-bottom: 0; } }
+  .list { border-top: 1px solid var(--stone-300); }
+  details { border-bottom: 1px solid var(--stone-300); }
+  summary { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: 1.4rem 0; cursor: pointer; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary h3 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.125rem, 2vw, 1.3125rem); line-height: 1.35; color: var(--stone-900); }
+  .mark { flex: none; display: grid; place-items: center; width: 2.25rem; height: 2.25rem; border: 1px solid var(--stone-300); border-radius: 50%; color: var(--stone-900); transition: transform 0.3s var(--ease), background-color 0.3s, border-color 0.3s; }
+  summary:hover .mark { border-color: var(--gold-400); }
+  details[open] .mark { transform: rotate(45deg); background: var(--gold-400); border-color: var(--gold-400); }
+  details p { padding: 0 3.75rem 1.6rem 0; color: var(--stone-600); max-width: 44rem; }
+  @media (max-width: 639.98px) { details p { padding-right: 0; } }
+</style>

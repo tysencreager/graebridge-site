@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+import { section, split } from '../lib/home';
+import { telHref, smsHref, href } from '../lib/site';
+
+interface Props { isHome?: boolean }
+const { isHome = false } = Astro.props;
+// "Call · Text · Get a Quote (three equal buttons, ...)"
+const line = section('STICKY MOBILE BAR').lines[0];
+if (!line) throw new Error('home.md: STICKY MOBILE BAR needs its "Call · Text · Get a Quote" line');
+const [call, text, quote] = split(line.replace(/\s*\([^)]*\)\s*$/, ''));
+---
+<nav class="sticky-bar" aria-label="Quick contact">
+  <a href={telHref} data-event="call_click" data-label="sticky bar"><Icon name="phone" size={18} /><span>{call}</span></a>
+  <a href={smsHref} data-event="text_click" data-label="sticky bar"><Icon name="text" size={18} /><span>{text}</span></a>
+  <a class="primary" href={href('#contact', isHome)}><span>{quote}</span></a>
+</nav>
+
+<style>
+  .sticky-bar { display: none; }
+  @media (max-width: 767.98px) {
+    .sticky-bar { position: fixed; inset: auto 0 0 0; z-index: 40; display: grid; grid-template-columns: repeat(3, 1fr); background: var(--stone-900); border-top: 1px solid var(--stone-700); padding-bottom: env(safe-area-inset-bottom, 0px); }
+    a { display: flex; align-items: center; justify-content: center; gap: 0.5rem; height: var(--bar-h); color: var(--white); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; }
+    a + a { border-left: 1px solid var(--stone-700); }
+    a.primary { background: var(--gold-500); color: var(--stone-900); border-left: 0; }
+  }
+</style>

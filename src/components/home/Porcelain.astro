@@ -1,0 +1,21 @@
+---
+import { section, field, parseLink } from '../../lib/home';
+const s = section('PORCELAIN CALLOUT');
+const cta = parseLink(field(s, 'CTA'));
+---
+<section id={s.id} class="section section--tint porcelain">
+  <div class="container inner">
+    <span class="rule" style="margin-inline:auto"></span>
+    <span class="kicker">{field(s, 'Kicker')}</span>
+    <h2 class="h2">{field(s, 'H2')}</h2>
+    <p class="lede">{field(s, 'Copy')}</p>
+    <a class="btn btn--dark" href={cta.href}>{cta.label}</a>
+  </div>
+</section>
+
+<style>
+  .porcelain { padding-block: clamp(4rem, 8vw, 6.5rem); }
+  .inner { max-width: 54rem; text-align: center; }
+  .h2 { font-style: italic; }
+  .lede { margin: 1.75rem auto 2.5rem; color: var(--stone-700); }
+</style>

@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graebridge Stone | Luxury Countertops & Surfaces</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        stone: {
+                            50: '#fcfaf9',
+                            100: '#f7f3f0',
+                            200: '#ede6e0',
+                            300: '#decbc0', // Warm accent
+                            800: '#2d2a28', // Dark charcoal
+                            900: '#1c1a19', // Nearly black
+                        },
+                        gold: {
+                            400: '#d4af37',
+                            500: '#c5a028',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1600607686527-6fb886090705?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')",
+                        'marble-texture': "url('https://images.unsplash.com/photo-1588691888461-9f93922c0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80')",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Utilities */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .nav-scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
+        }
+        
+        .nav-scrolled .nav-link {
+            color: #1c1a19;
+        }
+        
+        .nav-scrolled .logo-text {
+            color: #1c1a19;
+        }
+
+        /* Smooth Mobile Menu Transition */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 768px) {
+            /* Hero adjustments - change from center to start alignment */
+            header.relative.h-screen {
+                min-height: 100svh;
+                align-items: flex-start !important;
+                padding-top: 7rem; /* Account for fixed navbar */
+            }
+
+            /* Hero content - add top margin to push below navbar */
+            header.relative.h-screen > .relative.z-10 {
+                margin-top: 3rem;
+            }
+
+            /* Better touch targets for navigation */
+            nav .text-sm {
+                font-size: 0.8rem;
+                padding: 0.5rem;
+            }
+
+            /* Service cards spacing */
+            .grid.grid-cols-1.md\\:grid-cols-3 > div {
+                margin-bottom: 0;
+            }
+
+            /* Contact form improvements */
+            input, select, textarea {
+                font-size: 16px !important; /* Prevents iOS zoom */
+            }
+
+            /* Better scroll indicator visibility */
+            .animate-bounce {
+                bottom: 20px;
+            }
+
+            /* Improved spacing for sections */
+            section {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* Smaller hero text on very small screens */
+            .text-5xl {
+                font-size: 2.25rem;
+                line-height: 1.2;
+            }
+
+            /* Reduce section padding */
+            .py-24 {
+                padding-top: 3rem;
+                padding-bottom: 3rem;
+            }
+
+            .py-20 {
+                padding-top: 2.5rem;
+                padding-bottom: 2.5rem;
+            }
+
+            /* Contact section adjustments */
+            .p-8 {
+                padding: 1.25rem;
+            }
+
+            .space-y-8 > * + * {
+                margin-top: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 antialiased overflow-x-hidden">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6 text-white border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex justify-between items-center">
+                <!-- Logo -->
+                <a href="#" class="group">
+                    <h1 class="font-serif text-2xl tracking-widest uppercase font-bold logo-text group-hover:text-gold-400 transition-colors">
+                        Graebridge<span class="font-light">Stone</span>
+                    </h1>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-12 items-center">
+                    <a href="#about" class="nav-link text-sm uppercase tracking-widest hover:text-gold-400 transition-colors">About</a>
+                    <a href="#services" class="nav-link text-sm uppercase tracking-widest hover:text-gold-400 transition-colors">Services</a>
+                    <a href="#portfolio" class="nav-link text-sm uppercase tracking-widest hover:text-gold-400 transition-colors">Portfolio</a>
+                    <a href="#contact" class="px-6 py-2 border border-current text-sm uppercase tracking-widest hover:bg-gold-400 hover:border-gold-400 hover:text-white transition-all duration-300">
+                        Get a Quote
+                    </a>
+                </div>
+
+                <!-- Mobile Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-2xl nav-link focus:outline-none">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="fixed inset-0 bg-stone-900 z-40 transform translate-x-full flex flex-col justify-center items-center space-y-8 text-white">
+        <button id="close-menu-btn" class="absolute top-6 right-6 text-2xl text-stone-300 hover:text-white">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="#about" class="text-2xl font-serif hover:text-gold-400 transition-colors mobile-link">About</a>
+        <a href="#services" class="text-2xl font-serif hover:text-gold-400 transition-colors mobile-link">Services</a>
+        <a href="#portfolio" class="text-2xl font-serif hover:text-gold-400 transition-colors mobile-link">Portfolio</a>
+        <a href="#contact" class="text-2xl font-serif hover:text-gold-400 transition-colors mobile-link">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center bg-hero-pattern bg-cover bg-center bg-no-repeat bg-fixed">
+        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+            <p class="text-stone-200 text-sm md:text-base tracking-[0.3em] uppercase mb-4 animate-fade-in-up">Est. 1995 • Lindon, Utah</p>
+            <h2 class="font-serif text-5xl md:text-7xl lg:text-8xl text-white mb-8 leading-tight animate-fade-in-up" style="animation-delay: 0.1s;">
+                The Art of <br><span class="italic text-gold-400">Precision</span> Stone.
+            </h2>
+            <p class="text-stone-200 text-lg md:text-xl font-light mb-10 max-w-2xl mx-auto leading-relaxed animate-fade-in-up" style="animation-delay: 0.2s;">
+                Transforming Utah homes with bespoke countertops and porcelain surfaces. Over 30 years of family-owned craftsmanship.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center animate-fade-in-up" style="animation-delay: 0.3s;">
+                <a href="#services" class="px-8 py-4 bg-white text-stone-900 font-medium uppercase tracking-widest hover:bg-stone-100 transition-colors">
+                    View Collections
+                </a>
+                <a href="#contact" class="px-8 py-4 border border-white text-white font-medium uppercase tracking-widest hover:bg-white hover:text-stone-900 transition-all">
+                    Request Consult
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/50">
+            <i class="fas fa-chevron-down text-xl"></i>
+        </div>
+    </header>
+
+    <!-- Intro / Authority Section -->
+    <section id="about" class="py-24 md:py-32 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <div class="w-16 h-1 bg-gold-400 mb-8"></div>
+                    <h3 class="font-serif text-4xl md:text-5xl text-stone-900 mb-6">Not just contractors. <br><span class="italic text-stone-500">We are artisans.</span></h3>
+                    <p class="text-stone-600 mb-6 leading-relaxed">
+                        At Graebridge Stone, we believe that stone is the soul of a room. For over three decades, our family has served the Lindon and Heber City communities, bringing an uncompromising standard of quality to every cut and polish.
+                    </p>
+                    <p class="text-stone-600 mb-8 leading-relaxed">
+                        We are fully licensed, insured, and hold specialized certifications in large-format porcelain installation—a rarity in the industry. We don't just install countertops; we curate experiences that last a lifetime.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-8 mt-8 border-t border-stone-200 pt-8">
+                        <div>
+                            <span class="block text-4xl font-serif text-stone-900">30+</span>
+                            <span class="text-sm uppercase tracking-widest text-stone-500">Years Experience</span>
+                        </div>
+                        <div>
+                            <span class="block text-4xl font-serif text-stone-900">100%</span>
+                            <span class="text-sm uppercase tracking-widest text-stone-500">Satisfaction</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="relative reveal delay-200">
+                    <div class="absolute -top-4 -left-4 w-full h-full border-2 border-stone-200 z-0"></div>
+                    <img src="https://images.unsplash.com/photo-1565538810643-b5bdb714032a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Marble Slab Detail" class="relative z-10 shadow-2xl w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Graebridge Section -->
+    <section class="py-24 md:py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 reveal">
+                <div class="w-16 h-1 bg-gold-400 mx-auto mb-8"></div>
+                <h3 class="font-serif text-4xl md:text-5xl text-stone-900 mb-6">About Graebridge Stone</h3>
+                <p class="text-stone-600 leading-relaxed text-lg">
+                    Your home deserves more than just countertops—it deserves surfaces that reflect your style and add lasting value. With 30+ years of experience and a family-owned approach, we've built our reputation on craftsmanship and integrity.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <div class="relative reveal">
+                    <div class="absolute -top-3 -left-3 w-full h-full border-2 border-stone-200 z-0"></div>
+                    <img src="https://i.postimg.cc/4Nn1ds07/graebridge_stone_content_about_02_1920w.webp" alt="Graebridge Stone Team at Work" class="relative z-10 shadow-xl w-full h-80 object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                </div>
+                <div class="relative reveal delay-100">
+                    <div class="absolute -top-3 -right-3 w-full h-full border-2 border-stone-200 z-0"></div>
+                    <img src="https://i.postimg.cc/5Njm0brC/graebridge_stone_content_about_02_1920.webp" alt="Graebridge Stone Craftsmanship" class="relative z-10 shadow-xl w-full h-80 object-cover grayscale hover:grayscale-0 transition-all duration-700">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center reveal delay-200">
+                <div class="p-6">
+                    <span class="block text-4xl font-serif text-gold-500 mb-2">30+</span>
+                    <span class="text-sm uppercase tracking-widest text-stone-500">Years Experience</span>
+                    <p class="text-stone-600 mt-3 text-sm">Decades of expertise delivering results you'll love for years.</p>
+                </div>
+                <div class="p-6 border-y md:border-y-0 md:border-x border-stone-200">
+                    <span class="block text-4xl font-serif text-gold-500 mb-2">100%</span>
+                    <span class="text-sm uppercase tracking-widest text-stone-500">Family Owned</span>
+                    <p class="text-stone-600 mt-3 text-sm">We treat you like our own—the job isn't done until you're happy.</p>
+                </div>
+                <div class="p-6">
+                    <span class="block text-4xl font-serif text-gold-500 mb-2">Certified</span>
+                    <span class="text-sm uppercase tracking-widest text-stone-500">Porcelain Specialists</span>
+                    <p class="text-stone-600 mt-3 text-sm">Access to higher-performance surfaces—durable, beautiful, and versatile.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-24 bg-stone-900 text-stone-100 relative overflow-hidden">
+        <!-- Decorative Background Element -->
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-stone-800/30 skew-x-12 transform translate-x-20"></div>
+
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-2xl mx-auto mb-20 reveal">
+                <span class="text-gold-400 tracking-[0.2em] uppercase text-sm font-medium">Our Expertise</span>
+                <h3 class="font-serif text-4xl md:text-5xl mt-4">Curated Stone Services</h3>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div class="group relative overflow-hidden bg-stone-800 p-8 md:p-12 transition-all duration-500 hover:bg-stone-800/80 reveal">
+                    <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fas fa-utensils text-8xl"></i>
+                    </div>
+                    <h4 class="font-serif text-2xl mb-4 text-white group-hover:text-gold-400 transition-colors">Kitchen Surfaces</h4>
+                    <p class="text-stone-400 mb-8 leading-relaxed text-sm">
+                        From waterfall islands to seamless backsplashes. We work with Granite, Quartz, Marble, and Quartzite to create the heart of your home.
+                    </p>
+                    <a href="#contact" class="inline-block border-b border-gold-400 pb-1 text-gold-400 uppercase text-xs tracking-widest hover:text-white hover:border-white transition-all">Explore Kitchens</a>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="group relative overflow-hidden bg-stone-800 p-8 md:p-12 transition-all duration-500 hover:bg-stone-800/80 reveal delay-100">
+                    <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fas fa-bath text-8xl"></i>
+                    </div>
+                    <h4 class="font-serif text-2xl mb-4 text-white group-hover:text-gold-400 transition-colors">Luxury Bath</h4>
+                    <p class="text-stone-400 mb-8 leading-relaxed text-sm">
+                        Elevate your sanctuary. Custom vanities, shower walls, and tub decks crafted with precision to resist moisture and exude elegance.
+                    </p>
+                    <a href="#contact" class="inline-block border-b border-gold-400 pb-1 text-gold-400 uppercase text-xs tracking-widest hover:text-white hover:border-white transition-all">Explore Baths</a>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="group relative overflow-hidden bg-stone-800 p-8 md:p-12 transition-all duration-500 hover:bg-stone-800/80 reveal delay-200">
+                    <div class="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
+                        <i class="fas fa-gem text-8xl"></i>
+                    </div>
+                    <h4 class="font-serif text-2xl mb-4 text-white group-hover:text-gold-400 transition-colors">Specialty & Porcelain</h4>
+                    <p class="text-stone-400 mb-8 leading-relaxed text-sm">
+                        Custom BBQ stations, wet bars, and large-format porcelain installations. Certified expertise for complex, high-end materials.
+                    </p>
+                    <a href="#contact" class="inline-block border-b border-gold-400 pb-1 text-gold-400 uppercase text-xs tracking-widest hover:text-white hover:border-white transition-all">Explore Specialty</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-16 reveal">
+                <div>
+                    <span class="text-stone-500 tracking-[0.2em] uppercase text-sm">Recent Works</span>
+                    <h3 class="font-serif text-4xl md:text-5xl mt-4 text-stone-900">Selected Projects</h3>
+                </div>
+                <a href="#" class="hidden md:inline-block text-stone-900 font-medium hover:text-gold-500 transition-colors">
+                    View Full Gallery <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Project 1 -->
+                <div class="relative group overflow-hidden h-96 md:h-[30rem] w-full reveal">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Modern Kitchen" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            <h4 class="text-white font-serif text-2xl mb-2">The Alpine Residence</h4>
+                            <p class="text-stone-300 text-sm uppercase tracking-widest">Calacatta Gold Quartz</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="relative group overflow-hidden h-96 md:h-[30rem] w-full reveal delay-100">
+                    <img src="https://images.unsplash.com/photo-1556912172-45b7abe8b7e1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Luxury Bathroom" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            <h4 class="text-white font-serif text-2xl mb-2">Highland Master Bath</h4>
+                            <p class="text-stone-300 text-sm uppercase tracking-widest">Honed Marble</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="relative group overflow-hidden h-96 md:h-[30rem] w-full md:col-span-2 reveal delay-200">
+                    <img src="https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80" alt="Waterfall Island" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div class="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                            <h4 class="text-white font-serif text-2xl mb-2">Park City Modern</h4>
+                            <p class="text-stone-300 text-sm uppercase tracking-widest">Waterfall Island & Full Height Splash</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-8 text-center md:hidden">
+                <a href="#" class="inline-block text-stone-900 font-medium hover:text-gold-500 transition-colors">
+                    View Full Gallery <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial Strip -->
+    <section class="py-20 bg-stone-100 border-y border-stone-200">
+        <div class="max-w-4xl mx-auto px-6 text-center reveal">
+            <i class="fas fa-quote-right text-4xl text-stone-300 mb-8"></i>
+            <blockquote class="font-serif text-2xl md:text-3xl text-stone-800 italic leading-relaxed mb-8">
+                "Graebridge Stone didn't just install countertops; they transformed our kitchen into a masterpiece. The attention to detail is simply unmatched in Utah Valley."
+            </blockquote>
+            <cite class="not-italic uppercase tracking-widest text-sm text-stone-500 font-bold">— The Harrison Family, Heber City</cite>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-stone-900 text-stone-200">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                
+                <!-- Contact Info -->
+                <div class="reveal">
+                    <span class="text-gold-400 tracking-[0.2em] uppercase text-sm font-medium">Contact Us</span>
+                    <h3 class="font-serif text-4xl md:text-5xl mt-4 mb-8 text-white">Start Your Project</h3>
+                    <p class="text-stone-400 mb-12 leading-relaxed">
+                        We invite you to reach out for a complimentary consultation. Whether you are building custom or remodeling, let us bring 30 years of excellence to your home.
+                    </p>
+
+                    <div class="space-y-8">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-stone-800 flex items-center justify-center text-gold-400 mt-1">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="ml-6">
+                                <h5 class="text-white font-serif text-lg">Phone</h5>
+                                <p class="text-stone-400 mt-1">(385) 835-3880</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-stone-800 flex items-center justify-center text-gold-400 mt-1">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="ml-6">
+                                <h5 class="text-white font-serif text-lg">Location</h5>
+                                <p class="text-stone-400 mt-1">15 S 1400 W<br>Lindon, UT 84042</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-stone-800 flex items-center justify-center text-gold-400 mt-1">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="ml-6">
+                                <h5 class="text-white font-serif text-lg">Hours</h5>
+                                <p class="text-stone-400 mt-1">Mon - Fri: 9:00 am - 5:00 pm<br>Sat - Sun: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="bg-stone-800 p-8 md:p-12 rounded-sm shadow-2xl reveal delay-200">
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs uppercase tracking-widest text-stone-500 mb-2">Name</label>
+                                <input type="text" class="w-full bg-stone-900 border border-stone-700 text-white px-4 py-3 focus:outline-none focus:border-gold-400 transition-colors" placeholder="John Doe">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase tracking-widest text-stone-500 mb-2">Phone</label>
+                                <input type="tel" class="w-full bg-stone-900 border border-stone-700 text-white px-4 py-3 focus:outline-none focus:border-gold-400 transition-colors" placeholder="(555) 123-4567">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-stone-500 mb-2">Email</label>
+                            <input type="email" class="w-full bg-stone-900 border border-stone-700 text-white px-4 py-3 focus:outline-none focus:border-gold-400 transition-colors" placeholder="john@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-stone-500 mb-2">Service Interest</label>
+                            <select class="w-full bg-stone-900 border border-stone-700 text-white px-4 py-3 focus:outline-none focus:border-gold-400 transition-colors">
+                                <option>Kitchen Countertops</option>
+                                <option>Bathroom Vanities</option>
+                                <option>Porcelain Installation</option>
+                                <option>Other / General Inquiry</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-widest text-stone-500 mb-2">Message</label>
+                            <textarea rows="4" class="w-full bg-stone-900 border border-stone-700 text-white px-4 py-3 focus:outline-none focus:border-gold-400 transition-colors" placeholder="Tell us about your project..."></textarea>
+                        </div>
+                        <button type="button" onclick="alert('Thank you for your inquiry. A Graebridge specialist will contact you shortly.')" class="w-full bg-gold-500 text-stone-900 font-bold uppercase tracking-widest py-4 hover:bg-white transition-colors duration-300">
+                            Send Request
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-950 text-stone-600 py-12 border-t border-stone-900">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-6 md:mb-0">
+                <h2 class="font-serif text-xl tracking-widest uppercase font-bold text-stone-400">Graebridge<span class="font-light">Stone</span></h2>
+                <p class="text-xs mt-2">© 2025 Graebridge Stone. All Rights Reserved.</p>
+            </div>
+            
+            <div class="flex space-x-6 text-xl">
+                <a href="#" class="hover:text-gold-400 transition-colors"><i class="fab fa-facebook"></i></a>
+                <a href="#" class="hover:text-gold-400 transition-colors"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="hover:text-gold-400 transition-colors"><i class="fab fa-houzz"></i></a>
+            </div>
+        </div>
+        <div class="text-center mt-8 text-xs text-stone-700">
+            <a href="#" class="hover:text-stone-400">Privacy Policy</a> • 
+            <a href="#" class="hover:text-stone-400 ml-4">Terms of Service</a>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+                navbar.classList.remove('text-white');
+                navbar.classList.add('text-stone-900');
+                navbar.classList.remove('border-white/10');
+            } else {
+                navbar.classList.remove('nav-scrolled');
+                navbar.classList.add('text-white');
+                navbar.classList.remove('text-stone-900');
+                navbar.classList.add('border-white/10');
+            }
+        });
+
+        // Reveal on Scroll
+        const revealElements = document.querySelectorAll('.reveal');
+        
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            const elementVisible = 150;
+            
+            revealElements.forEach((reveal) => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        // Trigger once on load
+        revealOnScroll();
+
+        // Mobile Menu
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const closeBtn = document.getElementById('close-menu-btn');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            const isClosed = menu.classList.contains('translate-x-full');
+            if (isClosed) {
+                menu.classList.remove('translate-x-full');
+            } else {
+                menu.classList.add('translate-x-full');
+            }
+        }
+
+        btn.addEventListener('click', toggleMenu);
+        closeBtn.addEventListener('click', toggleMenu);
+        
+        // Close menu when a link is clicked
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5d1c94a7d4f8c89',t:'MTc5NTExODI3MQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5d1c94a7d4f8c89',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

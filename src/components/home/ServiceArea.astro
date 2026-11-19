@@ -1,0 +1,44 @@
+---
+import Icon from '../Icon.astro';
+import { section, field, links } from '../../lib/home';
+import { site, mapsEmbedSrc, addressFull } from '../../lib/site';
+const s = section('SERVICE AREA');
+const areas = links(field(s, 'Three area links'));
+---
+<section id={s.id} class="section section--white">
+  <div class="container grid">
+    <div>
+      <span class="rule"></span>
+      <span class="kicker">{field(s, 'Kicker')}</span>
+      <h2 class="h2">{field(s, 'H2')}</h2>
+      <p class="lede">{field(s, 'Copy')}</p>
+      <ul role="list" class="areas">
+        {areas.map((a) => (
+          <li>
+            <a href={a.href}>
+              <span>{a.label}</span><Icon name="arrow" size={18} />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+    <div class="map">
+      <iframe src={mapsEmbedSrc} title={`Map showing ${site.name} at ${addressFull}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid { display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 1024px) { .grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  .lede { margin-top: 1.5rem; font-size: 1.0625rem; }
+  .areas { display: grid; margin-top: 2.25rem; border-top: 1px solid var(--stone-200); }
+  .areas a { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.15rem 0.25rem; border-bottom: 1px solid var(--stone-200); font-family: var(--font-serif); font-size: 1.25rem; color: var(--stone-900); text-decoration: none; transition: padding 0.3s var(--ease), border-color 0.3s; }
+  .areas a :global(svg) { color: var(--gold-500); transition: transform 0.3s var(--ease); }
+  .areas a:hover { padding-inline: 0.75rem 0.25rem; border-bottom-color: var(--gold-400); }
+  .areas a:hover :global(svg) { transform: translateX(4px); }
+  /* Fixed aspect box so the lazy-loaded map cannot shift the layout */
+  .map { position: relative; aspect-ratio: 4 / 3; background: var(--stone-200); border: 1px solid var(--stone-200); }
+  .map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  @media (max-width: 639.98px) { .map { aspect-ratio: 1 / 1; } }
+</style>

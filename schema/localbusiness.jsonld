@@ -1,0 +1,160 @@
+{
+  "@context": "https://schema.org",
+  "@type": "HomeAndConstructionBusiness",
+  "additionalType": "https://schema.org/GeneralContractor",
+  "@id": "https://www.graebridgestonelindon.com/#business",
+  "name": "Graebridge Stone",
+  "description": "Family-owned, woman-led countertop fabricator in Lindon, Utah. Custom quartz, granite, quartzite, marble, soapstone, and large-format porcelain countertops, templated, fabricated, and installed across Utah County, Salt Lake County, and the Park City and Heber Valley area.",
+  "url": "https://www.graebridgestonelindon.com/",
+  "telephone": "PHONE_E164",
+  "email": "graebridgestone@gmail.com",
+  "image": "https://www.graebridgestonelindon.com/images/og-graebridge-stone.jpg",
+  "logo": "https://www.graebridgestonelindon.com/images/logo.png",
+  "foundingDate": "2020",
+  "priceRange": "$$$",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "15 S 1400 W",
+    "addressLocality": "Lindon",
+    "addressRegion": "UT",
+    "postalCode": "84042",
+    "addressCountry": "US"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 40.33703,
+    "longitude": -111.74638
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday"
+      ],
+      "opens": "09:00",
+      "closes": "17:00"
+    }
+  ],
+  "areaServed": [
+    {
+      "@type": "AdministrativeArea",
+      "name": "Utah County, UT"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Salt Lake County, UT"
+    },
+    {
+      "@type": "City",
+      "name": "Park City, UT"
+    },
+    {
+      "@type": "City",
+      "name": "Heber City, UT"
+    },
+    {
+      "@type": "City",
+      "name": "Lindon, UT"
+    },
+    {
+      "@type": "City",
+      "name": "Orem, UT"
+    },
+    {
+      "@type": "City",
+      "name": "Provo, UT"
+    },
+    {
+      "@type": "City",
+      "name": "Lehi, UT"
+    },
+    {
+      "@type": "City",
+      "name": "American Fork, UT"
+    },
+    {
+      "@type": "City",
+      "name": "Salt Lake City, UT"
+    }
+  ],
+  "sameAs": [
+    "https://www.facebook.com/112532857113102",
+    "https://www.instagram.com/graebridge_stone_",
+    "https://www.yelp.com/biz/graebridge-stone-lindon",
+    "GBP_MAPS_URL"
+  ],
+  "memberOf": [
+    {
+      "@type": "Organization",
+      "name": "Utah Valley Home Builders Association"
+    },
+    {
+      "@type": "Organization",
+      "name": "Lindon Chamber of Commerce"
+    }
+  ],
+  "paymentAccepted": "Cash, Check, Visa, MasterCard, American Express, Discover",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Countertop services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Quartz countertops",
+          "url": "https://www.graebridgestonelindon.com/quartz-countertops/"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Granite countertops",
+          "url": "https://www.graebridgestonelindon.com/granite-countertops/"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Quartzite and marble countertops",
+          "url": "https://www.graebridgestonelindon.com/quartzite-marble-countertops/"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Kitchen countertops",
+          "url": "https://www.graebridgestonelindon.com/kitchen-countertops/"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Bathroom countertops and vanity tops",
+          "url": "https://www.graebridgestonelindon.com/bathroom-countertops-vanities/"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Porcelain countertop and slab installation"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Outdoor kitchens, BBQ surrounds, wet bars, and fireplace surrounds"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,128 @@
+---
+import Icon from './Icon.astro';
+import { section, field, links } from '../lib/home';
+import { site, telHref, href } from '../lib/site';
+
+interface Props { isHome?: boolean }
+const { isHome = false } = Astro.props;
+
+const nav = section('NAV');
+const navLinks = links(field(nav, 'Links'));
+const quote = field(nav, 'Right side').match(/button\s+"([^"]+)"\s+\(([^)]+)\)/);
+if (!quote) throw new Error('home.md: NAV "Right side" needs: button "Label" (#anchor)');
+const [first, ...rest] = site.name.split(' ');
+---
+<header class="site-header" data-header>
+  <div class="container bar">
+    <a class="logo" href={isHome ? '#hero' : '/'} aria-label={`${site.name} home`}>
+      <span class="logo-strong">{first}</span><span class="logo-light">{rest.join(' ')}</span>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Primary">
+      <ul role="list">
+        {navLinks.map((l) => <li><a class="nav-link" href={href(l.href, isHome)}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="actions">
+      <a class="phone" href={telHref} data-event="call_click" data-label="header">
+        <Icon name="phone" size={16} /><span>{site.phoneDisplay}</span>
+      </a>
+      <a class="btn btn--sm btn--outline quote" href={href(quote[2], isHome)}>{quote[1]}</a>
+      <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-open>
+        <Icon name="menu" size={26} />
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" data-menu hidden>
+  <div class="mobile-top">
+    <span class="logo"><span class="logo-strong">{first}</span><span class="logo-light">{rest.join(' ')}</span></span>
+    <button class="menu-btn" type="button" aria-label="Close menu" data-menu-close>
+      <Icon name="close" size={26} />
+    </button>
+  </div>
+  <nav aria-label="Mobile">
+    <ul role="list">
+      {navLinks.map((l) => <li><a href={href(l.href, isHome)} data-menu-link>{l.label}</a></li>)}
+    </ul>
+  </nav>
+  <div class="mobile-bottom">
+    <a class="mobile-phone" href={telHref} data-event="call_click" data-label="mobile menu">
+      <Icon name="phone" size={18} /><span>{site.phoneDisplay}</span>
+    </a>
+    <a class="btn btn--gold btn--block" href={href(quote[2], isHome)} data-menu-link>{quote[1]}</a>
+  </div>
+</div>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const openBtn = document.querySelector<HTMLButtonElement>('[data-menu-open]');
+  const closeBtn = document.querySelector<HTMLButtonElement>('[data-menu-close]');
+
+  // Transparent over the hero, solid after 40px of scroll
+  const onScroll = () => header?.classList.toggle('is-solid', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Mobile nav
+  const setOpen = (open: boolean) => {
+    if (!menu || !openBtn) return;
+    menu.hidden = !open;
+    openBtn.setAttribute('aria-expanded', String(open));
+    document.documentElement.style.overflow = open ? 'hidden' : '';
+    (open ? closeBtn : openBtn)?.focus();
+  };
+  openBtn?.addEventListener('click', () => setOpen(true));
+  closeBtn?.addEventListener('click', () => setOpen(false));
+  menu?.querySelectorAll('[data-menu-link]').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (e) => {
+    if (!menu || menu.hidden) return;
+    if (e.key === 'Escape') setOpen(false);
+    if (e.key === 'Tab') {
+      const items = menu.querySelectorAll<HTMLElement>('a, button');
+      const firstEl = items[0];
+      const lastEl = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === firstEl) { e.preventDefault(); lastEl.focus(); }
+      else if (!e.shiftKey && document.activeElement === lastEl) { e.preventDefault(); firstEl.focus(); }
+    }
+  });
+  window.matchMedia('(min-width: 1100px)').addEventListener('change', (e) => e.matches && setOpen(false));
+</script>
+
+<style>
+  .site-header { position: fixed; inset: 0 0 auto 0; z-index: 50; padding-block: 1.5rem; color: var(--white); border-bottom: 1px solid rgb(255 255 255 / 0.1); transition: background-color 0.3s var(--ease), padding 0.3s var(--ease), color 0.3s var(--ease), box-shadow 0.3s var(--ease); }
+  .site-header.is-solid { background: rgb(252 250 249 / 0.96); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: var(--stone-900); border-bottom-color: transparent; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); padding-block: 1rem; }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+  .logo { font-family: var(--font-serif); font-size: clamp(1.15rem, 4.6vw, 1.5rem); letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; white-space: nowrap; transition: color 0.3s; }
+  a.logo:hover { color: var(--gold-400); }
+  .is-solid a.logo:hover { color: var(--stone-600); }
+  .logo-strong { font-weight: 700; }
+  .logo-light { font-weight: 400; }
+  .desktop-nav ul { display: flex; gap: clamp(1.25rem, 2.2vw, 2.5rem); }
+  .nav-link { font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; padding-block: 0.5rem; border-bottom: 1px solid transparent; transition: color 0.3s, border-color 0.3s; }
+  .nav-link:hover { color: var(--gold-400); }
+  .is-solid .nav-link:hover { color: var(--stone-900); border-bottom-color: var(--gold-400); }
+  .actions { display: flex; align-items: center; gap: 1.25rem; }
+  .phone { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.9375rem; font-weight: 500; letter-spacing: 0.02em; text-decoration: none; white-space: nowrap; }
+  .phone:hover span { text-decoration: underline; text-decoration-color: var(--gold-400); text-underline-offset: 0.3em; }
+  .menu-btn { display: none; background: none; border: 0; padding: 0.5rem; margin: -0.5rem; cursor: pointer; color: inherit; }
+
+  @media (max-width: 1099.98px) {
+    .desktop-nav, .phone, .quote { display: none; }
+    .menu-btn { display: inline-flex; }
+  }
+
+  .mobile-menu { position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; background: var(--stone-900); color: var(--white); padding: 1.5rem var(--gutter) calc(1.5rem + env(safe-area-inset-bottom, 0px)); overflow-y: auto; }
+  .mobile-menu[hidden] { display: none; }
+  .mobile-top { display: flex; align-items: center; justify-content: space-between; }
+  .mobile-menu .menu-btn { display: inline-flex; color: var(--stone-300); }
+  .mobile-menu nav { flex: 1; display: grid; place-items: center; padding-block: 2rem; }
+  .mobile-menu nav ul { display: grid; gap: 1.75rem; text-align: center; }
+  .mobile-menu nav a { font-family: var(--font-serif); font-size: 1.625rem; text-decoration: none; transition: color 0.3s; }
+  .mobile-menu nav a:hover { color: var(--gold-400); }
+  .mobile-bottom { display: grid; gap: 1.25rem; justify-items: center; }
+  .mobile-phone { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 1.125rem; text-decoration: none; color: var(--stone-200); }
+</style>

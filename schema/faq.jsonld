@@ -1,0 +1,86 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What types of countertops do you offer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Granite, quartz, quartzite, marble, soapstone, and large-format porcelain. We carry slabs from Cambria, Caesarstone, Cosentino, Della Terra, MSI, Pental, and Stratus, and we can source most others on request."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I choose the right countertop material for my kitchen or bathroom?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Start with how you live. Busy family kitchens usually lean quartz or quartzite; cooks who want natural variation choose granite; baths and bars are where marble shines. We walk you through samples in the Lindon shop and tell you plainly what each material will and will not tolerate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer custom countertops?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Every job is templated to your space and fabricated in our own shop, including waterfall islands, mitered edges, full-height backsplashes, fireplace surrounds, and furniture tops."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much do countertops cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Price depends on the material, the square footage, the edge profile, and the complexity of the installation. We provide free in-person estimates, and we will show you options at more than one price point."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does countertop installation take?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most installations are finished in a single day. Larger or more complex projects, such as multiple rooms or outdoor kitchens, can take longer, and we tell you the schedule before we start."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the warranty on your countertops?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Manufacturer warranties vary by material and brand, and we stand behind our fabrication and installation work. Ask us about the specific warranty for the slab you choose."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How should I care for my new countertop?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mild soap and water handle daily cleaning for every material we sell. Natural stones like granite and marble benefit from periodic sealing; quartz and porcelain do not need it. We send care instructions with every installation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you remove my old countertops?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Removal and haul-away of your existing countertops is included with installation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer free estimates or consultations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Consultations and estimates are complimentary, whether you visit the shop or send us photos and measurements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer installation services?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. We template, fabricate, and install every countertop we sell with our own team, and we are certified to install large-format porcelain."
+      }
+    }
+  ]
+}

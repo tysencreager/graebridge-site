@@ -1,0 +1,153 @@
+---
+import { Picture, getImage } from 'astro:assets';
+import Icon from '../Icon.astro';
+import { section, field, parseLink } from '../../lib/home';
+import { gallery } from '../../lib/content';
+import { site } from '../../lib/site';
+
+const s = section('GALLERY');
+const cta = parseLink(field(s, 'CTA'));
+// Lightbox files: WebP, capped at 1600px wide.
+const items = await Promise.all(
+  gallery.map(async (g) => ({
+    ...g,
+    full: await getImage({ src: g.image, width: Math.min(1600, g.image.width), format: 'webp', quality: 82 }),
+  }))
+);
+---
+<section id={s.id} class="section section--white gallery">
+  <div class="container">
+    <header class="head">
+      <div>
+        <span class="kicker">{field(s, 'Kicker')}</span>
+        <h2 class="h2">{field(s, 'H2')}</h2>
+      </div>
+      <a class="follow" href={site.social.instagram} target="_blank" rel="noopener">
+        {cta.label}<Icon name="arrow" size={18} />
+      </a>
+    </header>
+
+    {items.length > 0 && (
+      <ul role="list" class="grid">
+        {items.map((g, i) => (
+          <li>
+            <a
+              href={g.full.src}
+              data-lb={i}
+              data-alt={g.alt}
+              data-caption={[g.caption, g.detail].filter(Boolean).join(' · ')}
+              aria-label={`View larger: ${g.alt}`}
+            >
+              <Picture
+                src={g.image}
+                formats={['avif', 'webp']}
+                widths={[360, 540, 720, 960].filter((w) => w <= g.image.width)}
+                sizes="(min-width: 900px) 40vw, (min-width: 640px) 48vw, 92vw"
+                alt={g.alt}
+                loading="lazy"
+              />
+              {(g.caption || g.detail) && (
+                <span class="cap" aria-hidden="true">
+                  {g.caption && <span class="cap-title">{g.caption}</span>}
+                  {g.detail && <span class="cap-detail">{g.detail}</span>}
+                </span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+
+  <dialog class="lightbox" data-lightbox aria-label="Project photo viewer">
+    <button class="lb-btn lb-close" type="button" data-lb-close aria-label="Close"><Icon name="close" size={26} /></button>
+    <button class="lb-btn lb-prev" type="button" data-lb-prev aria-label="Previous photo"><Icon name="chevron" size={30} /></button>
+    <figure>
+      <img data-lb-img alt="" />
+      <figcaption><span data-lb-caption></span><span data-lb-count></span></figcaption>
+    </figure>
+    <button class="lb-btn lb-next" type="button" data-lb-next aria-label="Next photo"><Icon name="chevron" size={30} /></button>
+  </dialog>
+</section>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox]');
+  const tiles = [...document.querySelectorAll<HTMLAnchorElement>('[data-lb]')];
+  if (dialog && tiles.length) {
+    const img = dialog.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const caption = dialog.querySelector<HTMLElement>('[data-lb-caption]')!;
+    const count = dialog.querySelector<HTMLElement>('[data-lb-count]')!;
+    let index = 0;
+    const show = (n: number) => {
+      index = (n + tiles.length) % tiles.length;
+      const tile = tiles[index];
+      img.src = tile.href;
+      img.alt = tile.dataset.alt ?? '';
+      caption.textContent = tile.dataset.caption ?? '';
+      count.textContent = `${index + 1} / ${tiles.length}`;
+    };
+    tiles.forEach((tile, n) =>
+      tile.addEventListener('click', (e) => {
+        e.preventDefault();
+        show(n);
+        dialog.showModal();
+      })
+    );
+    dialog.querySelector('[data-lb-close]')?.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-lb-prev]')?.addEventListener('click', () => show(index - 1));
+    dialog.querySelector('[data-lb-next]')?.addEventListener('click', () => show(index + 1));
+    dialog.addEventListener('click', (e) => e.target === dialog && dialog.close());
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(index - 1);
+      if (e.key === 'ArrowRight') show(index + 1);
+    });
+    dialog.addEventListener('close', () => tiles[index]?.focus());
+  }
+</script>
+
+<style>
+  .head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem 3rem; margin-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .follow { display: inline-flex; align-items: center; gap: 0.6rem; font-weight: 500; color: var(--stone-900); text-decoration: none; padding-bottom: 0.25rem; border-bottom: 1px solid var(--gold-400); transition: border-color 0.3s; }
+  .follow:hover { border-color: var(--stone-900); }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+  .grid li { position: relative; overflow: hidden; background: var(--stone-200); aspect-ratio: 1 / 1; }
+  .grid li:nth-child(5n + 1), .grid li:nth-child(5n + 2), .grid li:nth-child(5n) { grid-column: span 2; aspect-ratio: 4 / 3; }
+  @media (min-width: 900px) {
+    .grid { grid-template-columns: repeat(6, 1fr); gap: 1rem; }
+    .grid li { grid-column: span 2; aspect-ratio: auto; height: 24rem; }
+    .grid li:nth-child(5n) { grid-column: span 2; aspect-ratio: auto; }
+    .grid li:nth-child(5n + 1), .grid li:nth-child(5n + 2) { grid-column: span 3; aspect-ratio: auto; height: 30rem; }
+  }
+  .grid a { display: block; width: 100%; height: 100%; color: var(--white); }
+  .grid :global(picture), .grid :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .grid :global(img) { transition: transform 0.7s var(--ease); }
+  .grid a:hover :global(img), .grid a:focus-visible :global(img) { transform: scale(1.05); }
+  .grid a:focus-visible { outline-offset: -4px; }
+
+  /* Touch: caption sits on a gradient at the foot of the tile. Hover devices: the mockup's centered overlay. */
+  .cap { position: absolute; inset: auto 0 0 0; display: flex; flex-direction: column; gap: 0.15rem; padding: 2.5rem 1rem 0.9rem; background: linear-gradient(to top, rgb(0 0 0 / 0.72), transparent); pointer-events: none; }
+  .cap-title { font-family: var(--font-serif); font-size: 1.0625rem; line-height: 1.25; }
+  .cap-detail { font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone-200); }
+  @media (hover: hover) and (min-width: 900px) {
+    .cap { inset: 0; align-items: center; justify-content: center; gap: 0.5rem; padding: 1.5rem; text-align: center; background: rgb(0 0 0 / 0.45); opacity: 0; transition: opacity 0.3s; }
+    .cap > * { transform: translateY(1rem); transition: transform 0.3s; }
+    .grid a:hover .cap, .grid a:focus-visible .cap { opacity: 1; }
+    .grid a:hover .cap > *, .grid a:focus-visible .cap > * { transform: none; }
+    .cap-title { font-size: 1.5rem; }
+    .cap-detail { font-size: 0.8125rem; }
+  }
+
+  .lightbox { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgb(12 10 9 / 0.96); color: var(--white); }
+  .lightbox[open] { display: grid; grid-template-columns: auto 1fr auto; align-items: center; }
+  .lightbox::backdrop { background: rgb(12 10 9 / 0.9); }
+  .lightbox figure { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; height: 100%; padding: 3.5rem 0 1.5rem; min-width: 0; }
+  .lightbox img { max-width: 100%; max-height: calc(100dvh - 9rem); width: auto; height: auto; object-fit: contain; }
+  .lightbox figcaption { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem 1.5rem; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--stone-300); text-align: center; padding-inline: 1rem; }
+  .lb-btn { display: grid; place-items: center; width: 3rem; height: 3rem; background: none; border: 0; color: var(--stone-200); cursor: pointer; transition: color 0.2s; }
+  .lb-btn:hover { color: var(--gold-400); }
+  .lb-close { position: absolute; top: 0.75rem; right: 0.75rem; }
+  .lb-prev :global(svg) { transform: rotate(90deg); }
+  .lb-next :global(svg) { transform: rotate(-90deg); }
+  @media (min-width: 768px) { .lb-btn { width: 4.5rem; height: 4.5rem; } }
+</style>

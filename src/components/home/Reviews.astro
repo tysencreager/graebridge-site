@@ -1,0 +1,54 @@
+---
+import Icon from '../Icon.astro';
+import { section, field, parseLink } from '../../lib/home';
+import { reviews } from '../../lib/content';
+import { reviewUrl } from '../../lib/site';
+
+const s = section('REVIEWS');
+const cta = parseLink(field(s, 'CTA'));
+// Fewer than three real reviews: the section is not rendered. An empty anchor keeps /#reviews (a 301 target) landing here.
+const show = reviews.items.length >= 3;
+const fmt = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+---
+{show ? (
+  <section id={s.id} class="section section--tint">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <span class="kicker">{field(s, 'Kicker')}</span>
+        <h2 class="h2">{field(s, 'H2')}</h2>
+        {reviews.rating && reviews.count && (
+          <p class="summary"><Icon name="star" size={18} /> {reviews.rating.toFixed(1)} on Google · {reviews.count} reviews</p>
+        )}
+      </header>
+      <ul role="list" class="cards">
+        {reviews.items.slice(0, 3).map((r) => (
+          <li>
+            <figure>
+              <div class="stars" role="img" aria-label={`${r.rating} out of 5 stars`}>
+                {Array.from({ length: r.rating }).map(() => <Icon name="star" size={16} />)}
+              </div>
+              <blockquote>{r.text}</blockquote>
+              <figcaption><strong>{r.name}</strong><time datetime={r.date}>{fmt(r.date)}</time></figcaption>
+            </figure>
+          </li>
+        ))}
+      </ul>
+      <p class="more"><a class="btn btn--outline" href={reviewUrl} target="_blank" rel="noopener">{cta.label}</a></p>
+    </div>
+  </section>
+) : (
+  <span id={s.id} class="anchor-stub"></span>
+)}
+
+<style>
+  .summary { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.25rem; font-weight: 500; color: var(--stone-800); }
+  .summary :global(svg), .stars { color: var(--gold-500); }
+  .cards { display: grid; gap: 1.5rem; }
+  @media (min-width: 900px) { .cards { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+  figure { display: flex; flex-direction: column; gap: 1.25rem; height: 100%; padding: 2.25rem 2rem; background: var(--white); border: 1px solid var(--stone-200); }
+  .stars { display: flex; gap: 0.2rem; }
+  blockquote { flex: 1; font-family: var(--font-serif); font-style: italic; font-size: 1.125rem; line-height: 1.6; color: var(--stone-800); }
+  figcaption { display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone-600); }
+  figcaption strong { color: var(--stone-900); }
+  .more { margin-top: 3rem; text-align: center; }
+</style>
