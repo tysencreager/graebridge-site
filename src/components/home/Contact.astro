@@ -1,4 +1,5 @@
 ---
+import T from '../T.astro';
 import ContactDetails from '../ContactDetails.astro';
 import QuoteForm from '../QuoteForm.astro';
 import { section, field } from '../../lib/home';
@@ -9,7 +10,7 @@ const s = section('CONTACT');
     <div>
       <span class="kicker">{field(s, 'Kicker')}</span>
       <h2 class="h2">{field(s, 'H2')}</h2>
-      <p class="muted copy">{field(s, 'Copy')}</p>
+      <p class="muted copy"><T text={field(s, 'Copy')} /></p>
       <ContactDetails />
     </div>
     <QuoteForm source="home" />

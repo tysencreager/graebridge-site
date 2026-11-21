@@ -101,7 +101,7 @@ Content: the 10 questions in /content/faq.md as an accordion. Mark up with FAQPa
 # SERVICE AREA (id: service-area)
 Kicker: Where We Work
 H2: Based in Lindon. Installing across the Wasatch Front and Back.
-Copy: Our shop is at 15 S 1400 W in Lindon, ten minutes from Orem, Provo, American Fork, and Lehi. We template and install throughout Utah County, the Salt Lake Valley, and the Park City and Heber Valley area, and we travel farther for the right project.
+Copy: Our shop is at 15 S 1400 W in Lindon, ten minutes from Orem, Provo, American Fork, and Lehi. We template and install across Utah County, the Salt Lake Valley, and Park City and Heber, and we travel farther for the right project.
 Three area links: Utah County (/countertops-utah-county/) · Salt Lake City & County (/countertops-salt-lake-city/) · Park City & Heber Valley (/countertops-park-city-heber/)
 Map: Google Maps embed of the Lindon address (lazy-loaded).
 

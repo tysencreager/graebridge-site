@@ -1,4 +1,5 @@
 ---
+import T from '../T.astro';
 import { section, field, parseLink } from '../../lib/home';
 const s = section('PORCELAIN CALLOUT');
 const cta = parseLink(field(s, 'CTA'));
@@ -8,7 +9,7 @@ const cta = parseLink(field(s, 'CTA'));
     <span class="rule" style="margin-inline:auto"></span>
     <span class="kicker">{field(s, 'Kicker')}</span>
     <h2 class="h2">{field(s, 'H2')}</h2>
-    <p class="lede">{field(s, 'Copy')}</p>
+    <p class="lede"><T text={field(s, 'Copy')} /></p>
     <a class="btn btn--dark" href={cta.href}>{cta.label}</a>
   </div>
 </section>

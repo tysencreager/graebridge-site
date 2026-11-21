@@ -1,4 +1,5 @@
 ---
+import T from '../T.astro';
 import { Picture } from 'astro:assets';
 import { section, field, list } from '../../lib/home';
 import { texture } from '../../lib/photos';
@@ -11,7 +12,7 @@ const cards = list(s, 'Cards').map((c) => ({ ...c, texture: texture(c.title) }))
       <span class="rule" style="margin-inline:auto"></span>
       <span class="kicker">{field(s, 'Kicker')}</span>
       <h2 class="h2">{field(s, 'H2')}</h2>
-      <p class="lede">{field(s, 'Intro')}</p>
+      <p class="lede"><T text={field(s, 'Intro')} /></p>
     </header>
 
     <ul role="list" class="cards">
@@ -32,7 +33,7 @@ const cards = list(s, 'Cards').map((c) => ({ ...c, texture: texture(c.title) }))
           <div class="body">
             <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
             <h3>{c.title}</h3>
-            <p>{c.body}</p>
+            <p><T text={c.body} /></p>
             {c.link?.href && (
               <a class="link-underline" href={c.link.href}>
                 Learn more<span class="sr-only"> about {c.title.toLowerCase()}</span>

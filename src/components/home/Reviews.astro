@@ -48,7 +48,8 @@ const fmt = (d: string) => new Date(`${d}T12:00:00`).toLocaleDateString('en-US',
   @media (min-width: 900px) { .cards { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
   figure { display: flex; flex-direction: column; gap: 1.25rem; height: 100%; padding: 2.25rem 2rem; background: var(--white); border: 1px solid var(--stone-200); }
   .stars { display: flex; gap: 0.2rem; }
-  blockquote { flex: 1; font-family: var(--font-serif); font-style: italic; font-size: 1rem; line-height: 1.7; color: var(--stone-800); }
+  blockquote { flex: 1; font-size: 1rem; line-height: 1.75; color: var(--stone-700); }
+  figure::before { content: '\201C'; font-family: var(--font-serif); font-size: 3rem; line-height: 0.6; color: var(--gold-500); height: 1.25rem; }
   figcaption { display: flex; flex-direction: column; gap: 0.2rem; font-size: 0.8125rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone-600); }
   figcaption strong { color: var(--stone-900); }
   .more { margin-top: 3rem; text-align: center; }
