@@ -77,6 +77,7 @@ const team = Object.values(teamFiles)[0]?.default;
 
 <style>
   .grid { display: grid; gap: 3.5rem; align-items: center; }
+  .grid > * { min-width: 0; }
   @media (min-width: 1024px) { .grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
   .media { padding: 1rem 0 0 1rem; }
   .media :global(img) { width: 100%; height: auto; }
@@ -91,6 +92,13 @@ const team = Object.values(teamFiles)[0]?.default;
   .stats div { display: flex; flex-direction: column-reverse; justify-content: flex-end; }
   .stats dd { font-family: var(--font-serif); font-size: clamp(1.9rem, 4vw, 2.25rem); line-height: 1.1; color: var(--stone-900); }
   .stats dt { margin-top: 0.5rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone-600); line-height: 1.5; }
+  /* Narrow phones: three columns of tracked capitals do not fit, so each stat becomes a row */
+  @media (max-width: 479.98px) {
+    .stats { grid-template-columns: 1fr; gap: 1rem; }
+    .stats div { flex-direction: row-reverse; justify-content: flex-end; align-items: baseline; gap: 1rem; }
+    .stats dd { flex: none; min-width: 5.5rem; }
+    .stats dt { margin-top: 0; }
+  }
   .features { display: grid; margin-top: clamp(3.5rem, 7vw, 6rem); border-block: 1px solid var(--stone-200); }
   .features li { padding: 2rem 0; }
   .features li + li { border-top: 1px solid var(--stone-200); }

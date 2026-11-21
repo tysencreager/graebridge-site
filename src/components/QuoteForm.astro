@@ -97,7 +97,7 @@ const id = (n: string) => `qf-${source}-${n}`;
 
 <style>
   .quote-form { background: var(--stone-800); color: var(--stone-200); padding: clamp(1.5rem, 4vw, 3rem); box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4); }
-  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .hp { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
   .fields { display: grid; gap: 1.5rem; margin-bottom: 1.75rem; }
   @media (min-width: 640px) { .fields { grid-template-columns: 1fr 1fr; } .field:not(.half) { grid-column: 1 / -1; } }
   label { display: block; margin-bottom: 0.5rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone-400); }
