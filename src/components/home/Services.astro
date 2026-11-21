@@ -1,0 +1,81 @@
+---
+import T from '../T.astro';
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { section, field, list, split } from '../../lib/home';
+import { altFor } from '../../lib/content';
+
+const s = section('SERVICES');
+const cards = list(s, 'Cards');
+const also = split(field(s, 'Also offered'));
+// One image per card in src/assets/services/: service-kitchen.jpg, service-bath.jpg, service-specialty.jpg
+const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/services/*.{jpg,jpeg,png,webp}', { eager: true });
+const FILE_FOR: Record<string, string> = { kitchens: 'service-kitchen', bathrooms: 'service-bath', specialty: 'service-specialty' };
+const photoFor = (id?: string) => {
+  const stem = FILE_FOR[id ?? ''] ?? id;
+  const hit = Object.entries(files).find(([p]) => p.split('/').pop()!.replace(/\.\w+$/, '') === stem);
+  return hit ? { image: hit[1].default, file: hit[0].split('/').pop()! } : undefined;
+};
+---
+<section id={s.id} class="section section--dark services">
+  <div class="shard" aria-hidden="true"></div>
+  <div class="container">
+    <header class="section-head section-head--center">
+      <span class="kicker">{field(s, 'Kicker')}</span>
+      <h2 class="h2">{field(s, 'H2')}</h2>
+    </header>
+
+    <div class="cards">
+      {cards.map((c) => {
+        const photo = photoFor(c.id);
+        const image = photo?.image;
+        return (
+          <article class="card" id={c.id}>
+            <div class="media">
+              {image ? (
+                <Picture
+                  src={image}
+                  formats={['avif', 'webp']}
+                  widths={[400, 600, 800].filter((w) => w <= image.width)}
+                  sizes="(min-width: 768px) 30vw, 92vw"
+                  alt={altFor(photo!.file, `${c.title} by Graebridge Stone`)}
+                  loading="lazy"
+                />
+              ) : (
+                <div class="image-coming">Image coming</div>
+              )}
+            </div>
+            <div class="body">
+              <h3>{c.title}</h3>
+              <p><T text={c.body} /></p>
+              {c.link && <a class="btn btn--outline-gold" href={c.link.href}>{c.link.label}</a>}
+            </div>
+          </article>
+        );
+      })}
+    </div>
+
+    <ul role="list" class="also">
+      {also.map((a) => <li>{a}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .services { position: relative; overflow: hidden; }
+  .shard { position: absolute; top: 0; right: 0; width: 33%; height: 100%; background: rgb(45 42 40 / 0.3); transform: skewX(12deg) translateX(5rem); }
+  .container { position: relative; }
+  .cards { display: grid; gap: 2rem; }
+  @media (min-width: 768px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+  .card { display: flex; flex-direction: column; background: var(--stone-800); scroll-margin-top: calc(var(--header-h) + 1rem); }
+  .media { aspect-ratio: 4 / 3; overflow: hidden; background: var(--stone-700); }
+  .media :global(picture), .media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .media :global(img) { transition: transform 0.7s var(--ease); }
+  .card:hover .media :global(img) { transform: scale(1.05); }
+  .body { display: flex; flex-direction: column; align-items: flex-start; flex: 1; padding: 2rem; }
+  @media (min-width: 1024px) { .body { padding: 2.5rem; } }
+  h3 { font-family: var(--font-serif); font-weight: 400; font-size: 1.5rem; color: var(--white); transition: color 0.3s; }
+  .card:hover h3 { color: var(--gold-400); }
+  p { margin: 1rem 0 2rem; font-size: 0.9375rem; line-height: 1.7; color: var(--stone-400); flex: 1; }
+  .also { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 2rem; margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--stone-800); font-size: 0.8125rem; letter-spacing: 0.06em; color: var(--stone-400); text-align: center; }
+</style>

@@ -1,0 +1,131 @@
+old_path,new_path,status,note
+/,/,301,page
+/about,/#about,301,page
+/faqs,/#faq,301,page
+/reviews,/#reviews,301,page
+/contact,/#contact,301,page
+/blog,/blog/,301,page
+/serving-area,/#service-area,301,page
+/gallery,/#gallery,301,page
+/request-a-call-back-form,/#contact,301,page
+/weatherproof-materials,/#specialty,301,page
+/installation-process,/#process,301,page
+/material-types-specialty-materials,/#materials,301,page
+/outdoor-countertops-exterior-surfaces,/#specialty,301,page
+/care-and-maintenance,/#faq,301,page
+/countertop-finishes,/#materials,301,page
+/bathroom-countertops,/bathroom-countertops-vanities/,301,page
+/bbq-and-grill-stations,/#specialty,301,page
+/stone-repair-restoration,/#contact,301,page
+/installation-site-services,/#process,301,page
+/porcelain-countertops,/#porcelain,301,page
+/edge-profiling-decorative-edges,/#process,301,page
+/specialty-countertops,/#specialty,301,page
+/quartzite-countertops,/quartzite-marble-countertops/,301,page
+/wet-bars,/#specialty,301,page
+/full-installation-services,/#process,301,page
+/on-site-fabrication-and-templates,/#process,301,page
+/soapstone-other-natural-stone,/quartzite-marble-countertops/,301,page
+/accent-furniture-tops,/#specialty,301,page
+/marble-countertops,/quartzite-marble-countertops/,301,page
+/retrofit-and-replacement,/kitchen-countertops/,301,page
+/patios-outdoor-bars,/#specialty,301,page
+/stone-fabrication-custom-cutting,/#process,301,page
+/islands,/kitchen-countertops/,301,page
+/kitchen-countertops,/kitchen-countertops/,301,page
+/tile-and-backsplash-solutions,/kitchen-countertops/,301,page
+/other-home-custom-stone-services,/#specialty,301,page
+/vanities-vs-free-standing-tops,/bathroom-countertops-vanities/,301,page
+/quartz-engineered-stone,/quartz-countertops/,301,page
+/granite-countertops,/granite-countertops/,301,page
+/stone-sealing-maintenance-services,/#faq,301,page
+/special-offers,/#contact,301,page
+/hibu-video-splash,/,301,page
+/what-makes-soapstone-countertops-a-favorite-for-timeless-kitchen-designs,/blog/what-makes-soapstone-countertops-a-favorite-for-timeless-kitchen-designs/,301,blog post (keep slug)
+/how-professionally-installed-quartz-countertops-add-long-term-value,/blog/how-professionally-installed-quartz-countertops-add-long-term-value/,301,blog post (keep slug)
+/common-reasons-homeowners-replace-their-kitchen-countertops,/blog/common-reasons-homeowners-replace-their-kitchen-countertops/,301,blog post (keep slug)
+/3-things-to-consider-before-replacing-kitchen-countertops,/blog/3-things-to-consider-before-replacing-kitchen-countertops/,301,blog post (keep slug)
+/why-people-are-choosing-quartz-for-their-new-countertops,/blog/why-people-are-choosing-quartz-for-their-new-countertops/,301,blog post (keep slug)
+/3-reasons-to-consider-granite-for-your-kitchen-countertops,/blog/3-reasons-to-consider-granite-for-your-kitchen-countertops/,301,blog post (keep slug)
+/the-importance-of-hiring-a-professional-countertop-installer,/blog/the-importance-of-hiring-a-professional-countertop-installer/,301,blog post (keep slug)
+/contact/countertops-service-area/alpine-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/american-fork-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/benjamin-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/cedar-hills-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/eagle-mountain-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/elk-ridge-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/eureka-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/fairview-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/highland-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/lindon-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/mapleton-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/mount-pleasant-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/nephi-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/orem-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/payson-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/pleasant-grove-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/provo-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/salem-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/santaquin-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/saratoga-springs-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/spanish-fork-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/springville-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/vineyard-ut,/countertops-utah-county/,301,city page
+/contact/countertops-service-area/alta-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/bluffdale-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/cottonwood-heights-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/draper-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/east-millcreek-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/granite-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/herriman-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/holladay-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/kearns-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/magna-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/midvale-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/millcreek-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/murray-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/riverton-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/salt-lake-City-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/sandy-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/south-jordan-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/south-salt-lake-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/taylorsville-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/west-jordan-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/west-valley-City-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/bountiful-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/centerville-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/clearfield-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/clinton-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/farmington-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/fruit-heights-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/hill-afb-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/kaysville-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/layton-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/north-salt-lake-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/riverdale-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/roy-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/south-ogden-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/south-weber-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/syracuse-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/washington-terrace-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/west-bountiful-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/west-point-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/woods-cross-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/morgan-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/erda-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/grantsville-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/rush-valley-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/stansbury-park-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/tooele-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/dugway-ut,/countertops-salt-lake-city/,301,city page
+/contact/countertops-service-area/coalville-ut,/countertops-park-city-heber/,301,city page
+/contact/countertops-service-area/daniel-ut,/countertops-park-city-heber/,301,city page
+/contact/countertops-service-area/hideout-ut,/countertops-park-city-heber/,301,city page
+/contact/countertops-service-area/kamas-ut,/countertops-park-city-heber/,301,city page
+/contact/countertops-service-area/midway-ut,/countertops-park-city-heber/,301,city page
+/contact/countertops-service-area/silver-summit-ut,/countertops-park-city-heber/,301,city page
+/contact/countertops-service-area/south-snyderville-basin-ut,/countertops-park-city-heber/,301,city page
+/contact/countertops-service-area/summit-park-ut,/countertops-park-city-heber/,301,city page
+/hibu-eng-menu,/,301,Hibu popup page (noindex)
+/project-consultation-and-design,/#process,301,"404 on old site, still linked internally"
+/first-last,/blog/,301,"404 from the blog byline placeholder, linked from every post"

@@ -1,0 +1,31 @@
+{
+  "_note": "Extra client project photos from the old site's CDN, used on the inner pages (see src/content/page-images.json). Alt text describes what is visible and does not name the material. 'source' is the old Hibu file.",
+  "images": [
+    { "file": "kitchen-06.jpg", "alt": "Kitchen island with a thick white countertop and waterfall end, light oak cabinets, and glass globe pendants", "source": "graebridge-stone-kitchen-gallery (2)" },
+    { "file": "kitchen-07.jpg", "alt": "U-shaped kitchen with black stone countertops on white cabinets", "source": "graebridge-stone-kitchen-gallery (4)" },
+    { "file": "kitchen-08.jpg", "alt": "Corner countertop in light speckled stone with an undermount sink", "source": "graebridge-stone-kitchen-gallery (6)" },
+    { "file": "kitchen-09.jpg", "alt": "Gray striated stone countertop and matching ledge on white cabinets", "source": "graebridge-stone-kitchen-gallery (7)" },
+    { "file": "kitchen-10.jpg", "alt": "Dark speckled stone countertop on white cabinets beside a gas cooktop", "source": "graebridge-stone-kitchen-gallery (9)" },
+    { "file": "kitchen-11.jpg", "alt": "Open kitchen with a long light stone island beneath a vaulted ceiling", "source": "graebridge-stone-kitchen-gallery (10)" },
+    { "file": "kitchen-12.jpg", "alt": "Kitchen with a speckled stone island on blue cabinets and black perimeter countertops", "source": "graebridge-stone-kitchen-gallery (14)" },
+    { "file": "kitchen-13.jpg", "alt": "Black stone countertop with white veining and a stainless undermount double sink", "source": "graebridge-stone-bathroom-gallery (14)" },
+    { "file": "kitchen-14.jpg", "alt": "White countertop with a black undermount sink and a matte black faucet", "source": "graebridge-stone-bathroom-gallery (4)" },
+    { "file": "kitchen-15.jpg", "alt": "Great room seen from above, with a white veined waterfall island and a slab fireplace surround", "source": "graebridge-stone-basement-renovation-gallery (2)" },
+    { "file": "specialty-02.jpg", "alt": "Basement kitchenette with dark countertops, white cabinets, and pendant lights", "source": "graebridge-stone-basement-renovation-gallery (9)" },
+    { "file": "specialty-03.jpg", "alt": "Long window-seat counter in light stone with floating shelves and a built-in dresser", "source": "graebridge-stone-basement-renovation-gallery (7)" },
+    { "file": "specialty-04.jpg", "alt": "Home office with a light stone-topped island and a built-in desk", "source": "graebridge-stone-basement-renovation-gallery (4)" },
+    { "file": "specialty-05.jpg", "alt": "Built-in desk nook with a light speckled stone top and wood cabinets", "source": "graebridge-stone-bathroom-gallery (13)" },
+    { "file": "specialty-06.jpg", "alt": "Laundry room with gray stone countertops on white cabinets", "source": "graebridge-stone-bathroom-gallery (15)" },
+    { "file": "bath-07.jpg", "alt": "Double vanity with a gray stone top and two black-framed mirrors", "source": "graebridge-stone-basement-renovation-gallery (1)" },
+    { "file": "bath-08.jpg", "alt": "Modern bathroom with a glass shower, slab-clad walls, and a floating white vanity", "source": "graebridge-stone-bathroom-gallery (2)" },
+    { "file": "bath-09.jpg", "alt": "White veined vanity top with a hammered metal sink on wood cabinets", "source": "graebridge-stone-bathroom-gallery (5)" },
+    { "file": "bath-10.jpg", "alt": "Cream and brown flecked stone vanity top with a white undermount sink", "source": "graebridge-stone-bathroom-gallery (7)" },
+    { "file": "bath-11.jpg", "alt": "Long gray stone vanity top with two undermount sinks and vertical sconces", "source": "graebridge-stone-bathroom-gallery (11)" },
+    { "file": "bath-12.jpg", "alt": "White vanity top with an undermount sink on a floating wood cabinet", "source": "graebridge-stone-bathroom-gallery (18)" },
+    { "file": "bath-13.jpg", "alt": "White vanity top with gray veining and an oval undermount sink", "source": "graebridge-stone-bathroom-gallery (1)" },
+    { "file": "bath-14.jpg", "alt": "Gray stone countertop with an integrated ramp sink and white fixtures", "source": "graebridge-stone-bathroom-gallery (26)" },
+    { "file": "bath-15.jpg", "alt": "White veined countertop with a rectangular undermount sink and a white faucet", "source": "graebridge-stone-bathroom-gallery (8)" },
+    { "file": "bath-16.jpg", "alt": "Tiled walk-in shower with a stone bench and a recessed niche", "source": "graebridge-stone-bathroom-gallery (24)" },
+    { "file": "bath-17.jpg", "alt": "Floating stone makeup counter beneath a tall lit mirror", "source": "graebridge-stone-bathroom-gallery (19)" }
+  ]
+}

@@ -1,0 +1,43 @@
+---
+// Phone, text, email, shop, hours. Labels come from home.md; every value comes from site.config.ts.
+import Icon from './Icon.astro';
+import { section, list } from '../lib/home';
+import { site, telHref, smsHref, mailHref, addressLine1, addressLine2, directionsUrl } from '../lib/site';
+
+const rows = list(section('CONTACT'), 'Details').map((d) => {
+  const label = d.title.split(':')[0].trim();
+  return { label, key: label.toLowerCase(), note: d.title.match(/\(([^()]*?)\s+link\)\s*$/)?.[1] };
+});
+const icons: Record<string, string> = { phone: 'phone', text: 'text', email: 'mail', shop: 'pin', hours: 'clock' };
+---
+<ul role="list" class="details">
+  {rows.map((r) => (
+    <li>
+      <span class="icon"><Icon name={icons[r.key] ?? 'pin'} size={20} /></span>
+      <div>
+        <h3>{r.label}</h3>
+        {r.key === 'phone' && <p><a href={telHref} data-event="call_click" data-label="contact">{site.phoneDisplay}</a></p>}
+        {r.key === 'text' && <p><a href={smsHref} data-event="text_click" data-label="contact">{site.phoneDisplay}</a></p>}
+        {r.key === 'email' && <p><a href={mailHref}>{site.email}</a></p>}
+        {r.key === 'shop' && (
+          <p>
+            {addressLine1}<br />{addressLine2}<br />
+            <a class="link-underline dir" href={directionsUrl} target="_blank" rel="noopener" data-event="directions_click" data-label="contact">{r.note ?? 'Get Directions'}</a>
+          </p>
+        )}
+        {r.key === 'hours' && <p>{site.hours}<br />{site.hoursClosed}</p>}
+      </div>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .details { display: grid; gap: 1.75rem; }
+  li { display: flex; align-items: flex-start; gap: 1.5rem; }
+  .icon { flex: none; display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; background: var(--stone-800); color: var(--gold-400); }
+  h3 { font-family: var(--font-serif); font-weight: 400; font-size: 1.125rem; color: var(--white); }
+  p { margin-top: 0.25rem; color: var(--stone-400); }
+  p a:not(.dir) { color: var(--stone-200); text-decoration: none; }
+  p a:not(.dir):hover { color: var(--gold-400); }
+  .dir { margin-top: 0.75rem; }
+</style>

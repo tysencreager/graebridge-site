@@ -1,0 +1,87 @@
+---
+// Standalone landing page in the same design. If the domain transfer slips, `npm run build:interim`
+// puts this page at the site root in place of the home page. Same config, same Formspree endpoint.
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import QuoteForm from '../components/QuoteForm.astro';
+import { section, field } from '../lib/home';
+import { site, telHref, smsHref, mailHref, addressLine1, addressLine2, directionsUrl, googleProfileUrl } from '../lib/site';
+import { localBusiness } from '../lib/schema';
+
+const hero = section('HERO');
+const [first, ...rest] = site.name.split(' ');
+---
+<Base
+  title="Custom Countertops in Lindon, Utah | Graebridge Stone"
+  description="Graebridge Stone is a family-owned countertop fabricator in Lindon, Utah. Our new website is on the way. Call, text, or request a free estimate today."
+  path="/"
+  chrome={false}
+  jsonld={[localBusiness()]}
+>
+  <div class="interim">
+    <div class="container grid">
+      <div class="info">
+        <p class="logo"><span class="strong">{first}</span><span>{rest.join(' ')}</span></p>
+        <p class="hero-kicker">{field(hero, 'Kicker')}</p>
+        <h1>A new website is on the way.</h1>
+        <p class="sub">We are still cutting, polishing, and installing stone every week. Call or text the shop, or send a request and we will be in touch within one business day.</p>
+
+        <ul role="list" class="details">
+          <li>
+            <Icon name="phone" size={20} />
+            <a href={telHref} data-event="call_click" data-label="interim">{site.phoneDisplay}</a>
+          </li>
+          <li>
+            <Icon name="text" size={20} />
+            <a href={smsHref} data-event="text_click" data-label="interim">Text us at <span>{site.phoneDisplay}</span></a>
+          </li>
+          <li>
+            <Icon name="pin" size={20} />
+            <span>{addressLine1}, {addressLine2}<br /><a class="small" href={directionsUrl} target="_blank" rel="noopener" data-event="directions_click" data-label="interim">Get Directions</a></span>
+          </li>
+          <li>
+            <Icon name="clock" size={20} />
+            <span>{site.hours}<br />{site.hoursClosed}</span>
+          </li>
+          <li>
+            <Icon name="mail" size={20} />
+            <a href={mailHref}>{site.email}</a>
+          </li>
+        </ul>
+
+        <a class="btn btn--outline-light" href={googleProfileUrl} target="_blank" rel="noopener">Find us on Google</a>
+      </div>
+
+      <div id="contact">
+        <QuoteForm source="interim" />
+      </div>
+    </div>
+    <p class="legal">© {new Date().getFullYear()} {site.legalName}. All rights reserved.</p>
+  </div>
+</Base>
+
+<style>
+  .interim {
+    min-height: 100svh; display: flex; flex-direction: column; justify-content: center; color: var(--white); padding-block: clamp(2.5rem, 6vw, 5rem) 2rem;
+    background:
+      linear-gradient(118deg, transparent 0 31.6%, rgb(255 255 255 / 0.05) 31.8% 32%, transparent 32.3%),
+      linear-gradient(104deg, transparent 0 58.2%, rgb(212 175 55 / 0.09) 58.4% 58.55%, transparent 58.8%),
+      radial-gradient(110% 80% at 18% 8%, rgb(222 203 192 / 0.16), transparent 60%),
+      linear-gradient(160deg, #35312e 0%, var(--stone-900) 52%, var(--stone-950) 100%);
+  }
+  .grid { display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 1024px) { .grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+  .logo { font-family: var(--font-serif); font-size: clamp(1.25rem, 4vw, 1.5rem); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3rem; }
+  .logo .strong { font-weight: 700; }
+  .hero-kicker { font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--stone-200); line-height: 1.8; }
+  h1 { margin-top: 1rem; font-family: var(--font-serif); font-weight: 400; font-size: clamp(2.25rem, 6vw, 3.75rem); line-height: 1.1; text-wrap: balance; }
+  .sub { margin-top: 1.5rem; max-width: 34rem; font-weight: 300; font-size: 1.125rem; line-height: 1.7; color: var(--stone-200); }
+  .details { display: grid; gap: 1.1rem; margin: 2.5rem 0; }
+  .details li { display: flex; align-items: flex-start; gap: 1rem; color: var(--stone-200); line-height: 1.5; }
+  .details :global(svg) { flex: none; margin-top: 0.15rem; color: var(--gold-400); }
+  .details a { color: var(--white); text-decoration: none; }
+  .details a:hover { color: var(--gold-400); }
+  .details li:first-child a { font-family: var(--font-serif); font-size: 1.5rem; line-height: 1.1; }
+  .details a.small { display: inline-block; margin-top: 0.35rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; border-bottom: 1px solid var(--gold-400); padding-bottom: 0.2rem; }
+  .legal { margin-top: 3rem; text-align: center; font-size: 0.75rem; color: var(--stone-400); }
+</style>

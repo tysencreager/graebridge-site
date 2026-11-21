@@ -1,0 +1,1 @@
+Drop your mockup file here as version1.html (the Version 01 "Classic Elegance" page from https://graebridge.elevategrowth.solutions/version1.html, saved with its CSS). Claude Code reads fonts, colors, and component styles from it.

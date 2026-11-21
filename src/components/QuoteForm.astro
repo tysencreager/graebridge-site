@@ -1,0 +1,118 @@
+---
+// The Formspree quote form. Field list, button label, and success copy come from the CONTACT section of home.md.
+import { section, field, split } from '../lib/home';
+import { site, isSet, telHref } from '../lib/site';
+
+interface Props { source?: string }
+const { source = 'home' } = Astro.props;
+
+const spec = field(section('CONTACT'), 'Form');
+const button = spec.match(/Button:\s*([^.]+)\./)?.[1]?.trim();
+const success = spec.match(/Success message:\s*"([^"]+)"/)?.[1];
+if (!button || !success) throw new Error('home.md: CONTACT "Form" needs "Button: Label." and "Success message: \\"...\\""');
+
+const defs = split(spec.split(/\s+·\s+honeypot/)[0]).map((rawField) => {
+  const required = /\*\s*$/.test(rawField.replace(/\s*\([^)]*\)\s*$/, '')) || rawField.endsWith('*');
+  const paren = rawField.match(/\(([^)]*)\)\s*\*?$/)?.[1];
+  const label = rawField.replace(/\s*\([^)]*\)\s*\*?$/, '').replace(/\*$/, '').trim();
+  const key = label.toLowerCase();
+  const options = paren?.includes(' / ') ? paren.split(' / ').map((o) => o.trim()) : undefined;
+  const kind = options ? 'select' : key.startsWith('upload') ? 'file' : key === 'message' ? 'textarea' : key === 'email' ? 'email' : key === 'phone' ? 'tel' : 'text';
+  const name = key.startsWith('upload') ? 'photo' : key.startsWith('service') ? 'service' : key.replace(/\W+/g, '_');
+  return { label, name, kind, required, options, optional: paren === 'optional' };
+});
+const autocomplete: Record<string, string> = { name: 'name', phone: 'tel', email: 'email' };
+const endpointReady = isSet(site.formspreeEndpoint);
+const id = (n: string) => `qf-${source}-${n}`;
+---
+<div class="quote-form" data-quote-form>
+  <form action={site.formspreeEndpoint} method="POST" enctype="multipart/form-data" data-ready={String(endpointReady)}>
+    <input type="hidden" name="_subject" value={`New quote request from the ${site.name} website`} />
+    <input type="hidden" name="source" value={source} />
+    <p class="hp" aria-hidden="true">
+      <label>Leave this field empty <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+    </p>
+
+    <div class="fields">
+      {defs.map((d) => (
+        <div class:list={['field', `field--${d.kind}`, { half: d.name === 'name' || d.name === 'phone' }]}>
+          <label for={id(d.name)}>
+            {d.label}{d.required && <span class="req" aria-hidden="true"> *</span>}{d.optional && <span class="opt"> (optional)</span>}
+          </label>
+          {d.kind === 'select' && (
+            <select id={id(d.name)} name={d.name}>
+              {d.options!.map((o) => <option>{o}</option>)}
+            </select>
+          )}
+          {d.kind === 'textarea' && <textarea id={id(d.name)} name={d.name} rows="4"></textarea>}
+          {d.kind === 'file' && <input id={id(d.name)} name={d.name} type="file" accept="image/*" />}
+          {['text', 'tel', 'email'].includes(d.kind) && (
+            <input id={id(d.name)} name={d.name} type={d.kind} required={d.required} autocomplete={autocomplete[d.name]} />
+          )}
+        </div>
+      ))}
+    </div>
+
+    <button class="btn btn--gold btn--block" type="submit">{button}</button>
+    <p class="error" role="alert" hidden>
+      Sorry, that did not send. Please call or text us at <a href={telHref} data-event="call_click" data-label="form error">{site.phoneDisplay}</a>.
+    </p>
+  </form>
+  <p class="success" role="status" tabindex="-1" hidden>{success}</p>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-quote-form]').forEach((wrap) => {
+    const form = wrap.querySelector('form')!;
+    const ok = wrap.querySelector<HTMLElement>('.success')!;
+    const error = wrap.querySelector<HTMLElement>('.error')!;
+    const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const done = () => {
+      form.hidden = true;
+      ok.hidden = false;
+      ok.focus();
+    };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      error.hidden = true;
+      const data = new FormData(form);
+      // Honeypot: bots that fill the hidden field get the success message and nothing is sent.
+      if (String(data.get('_gotcha') ?? '').trim() !== '') return done();
+      const file = data.get('photo');
+      if (file instanceof File && file.size === 0) data.delete('photo');
+      button.disabled = true;
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        (window as any).dataLayer = (window as any).dataLayer || [];
+        (window as any).dataLayer.push({ event: 'quote_request', label: data.get('service') || '' });
+        done();
+      } catch {
+        error.hidden = false;
+        button.disabled = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  .quote-form { background: var(--stone-800); color: var(--stone-200); padding: clamp(1.5rem, 4vw, 3rem); box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4); }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .fields { display: grid; gap: 1.5rem; margin-bottom: 1.75rem; }
+  @media (min-width: 640px) { .fields { grid-template-columns: 1fr 1fr; } .field:not(.half) { grid-column: 1 / -1; } }
+  label { display: block; margin-bottom: 0.5rem; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--stone-400); }
+  .req { color: var(--gold-400); }
+  .opt { text-transform: none; letter-spacing: 0.02em; }
+  input:not([type='file']), select, textarea { display: block; width: 100%; padding: 0.8rem 1rem; background: var(--stone-900); border: 1px solid var(--stone-700); border-radius: 0; color: var(--white); font-size: 1rem; transition: border-color 0.3s; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--gold-400); box-shadow: 0 0 0 1px var(--gold-400); }
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23a8a29e' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.75rem; }
+  textarea { resize: vertical; min-height: 7rem; }
+  input[type='file'] { width: 100%; font-size: 0.875rem; color: var(--stone-400); }
+  input[type='file']::file-selector-button { margin-right: 1rem; padding: 0.6rem 1.1rem; background: transparent; border: 1px solid var(--stone-400); color: var(--stone-200); font: inherit; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; }
+  button[disabled] { opacity: 0.6; cursor: progress; }
+  .error { margin-top: 1rem; font-size: 0.9375rem; color: #fecaca; }
+  .error a { color: var(--white); }
+  .success { font-family: var(--font-serif); font-size: clamp(1.375rem, 3vw, 1.75rem); line-height: 1.4; color: var(--white); padding-block: 3rem; text-align: center; }
+  .success:focus { outline: none; }
+  .success::before { content: ''; display: block; width: 4rem; height: 0.25rem; background: var(--gold-400); margin: 0 auto 1.75rem; }
+</style>

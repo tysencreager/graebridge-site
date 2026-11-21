@@ -1,0 +1,82 @@
+---
+import T from '../T.astro';
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from '../Icon.astro';
+import { section, field, parseLink, emph } from '../../lib/home';
+import { site, telHref } from '../../lib/site';
+import { altFor } from '../../lib/content';
+
+const s = section('HERO');
+const primary = parseLink(field(s, 'Primary CTA'));
+const secondary = parseLink(field(s, 'Secondary CTA'));
+const callLabel = field(s, 'Tertiary').split(/\s*\(/)[0];
+
+// Drop src/assets/hero.jpg in and it replaces the placeholder gradient at the next build.
+const heroFiles = import.meta.glob<{ default: ImageMetadata }>('../../assets/hero.{jpg,jpeg,png,webp}', { eager: true });
+const heroImage = Object.values(heroFiles)[0]?.default;
+---
+<section id={s.id} class:list={['hero', { 'hero--placeholder': !heroImage }]}>
+  {heroImage && (
+    <Picture
+      class="hero-img"
+      src={heroImage}
+      formats={['avif', 'webp']}
+      widths={[640, 960, 1280, 1600, 2000].filter((w) => w <= heroImage.width)}
+      sizes="100vw"
+      alt={altFor('hero.jpg')}
+      loading="eager"
+      fetchpriority="high"
+      decoding="sync"
+    />
+  )}
+  <div class="scrim" aria-hidden="true"></div>
+  <div class="content">
+    <p class="hero-kicker"><T text={field(s, 'Kicker')} /></p>
+    <h1 set:html={emph(field(s, 'H1'))} />
+    <p class="sub"><T text={field(s, 'Subhead')} /></p>
+    <div class="ctas">
+      <a class="btn btn--white" href={primary.href}>{primary.label}</a>
+      <a class="btn btn--outline-light" href={secondary.href}>{secondary.label}</a>
+    </div>
+    <a class="call" href={telHref} data-event="call_click" data-label="hero">
+      <Icon name="phone" size={16} /><span>{callLabel} {site.phoneDisplay}</span>
+    </a>
+  </div>
+  <a class="scroll" href="#trust" aria-label="Scroll to content"><Icon name="chevron" size={24} /></a>
+  {!heroImage && <span class="coming">Hero photo coming</span>}
+</section>
+
+<style>
+  .hero { position: relative; display: grid; place-items: center; min-height: 100svh; padding: calc(var(--header-h) + 3rem) var(--gutter) 6rem; color: var(--white); background: var(--stone-900); overflow: hidden; isolation: isolate; }
+  .hero--placeholder {
+    background:
+      linear-gradient(118deg, transparent 0 31.6%, rgb(255 255 255 / 0.05) 31.8% 32%, transparent 32.3%),
+      linear-gradient(104deg, transparent 0 58.2%, rgb(212 175 55 / 0.09) 58.4% 58.55%, transparent 58.8%),
+      linear-gradient(131deg, transparent 0 71.5%, rgb(255 255 255 / 0.035) 71.7% 72.1%, transparent 72.4%),
+      linear-gradient(97deg, transparent 0 14.8%, rgb(255 255 255 / 0.03) 15% 15.15%, transparent 15.4%),
+      radial-gradient(110% 80% at 18% 8%, rgb(222 203 192 / 0.16), transparent 60%),
+      radial-gradient(90% 70% at 88% 86%, rgb(212 175 55 / 0.1), transparent 62%),
+      linear-gradient(160deg, #35312e 0%, var(--stone-900) 52%, var(--stone-950) 100%);
+  }
+  .hero :global(.hero-img), .hero :global(.hero-img img) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+  .scrim { position: absolute; inset: 0; z-index: -1; background: linear-gradient(to bottom, rgb(0 0 0 / 0.45), rgb(0 0 0 / 0.6)); }
+  .hero--placeholder .scrim { background: none; }
+  .content { max-width: 58rem; text-align: center; }
+  .hero-kicker { font-size: clamp(0.75rem, 1.6vw, 0.9375rem); letter-spacing: 0.3em; text-transform: uppercase; color: var(--stone-200); margin-bottom: 1.25rem; }
+  h1 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(2.75rem, 9.2vw, 6rem); line-height: 1.08; margin-bottom: 2rem; text-wrap: balance; }
+  h1 :global(em) { font-style: italic; color: var(--gold-400); }
+  .sub { max-width: 44rem; margin: 0 auto 2.5rem; font-size: clamp(1.0625rem, 2vw, 1.25rem); font-weight: 300; line-height: 1.65; color: var(--stone-200); }
+  .ctas { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+  .call { display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 2rem; padding: 0.5rem; font-size: 0.9375rem; letter-spacing: 0.05em; color: var(--stone-200); text-decoration: none; }
+  .call span { border-bottom: 1px solid var(--gold-400); padding-bottom: 0.2rem; }
+  .call:hover { color: var(--white); }
+  .scroll { position: absolute; bottom: 2rem; left: 50%; translate: -50% 0; color: rgb(255 255 255 / 0.6); padding: 0.5rem; animation: bob 2s ease-in-out infinite; }
+  .coming { position: absolute; right: 1rem; bottom: 1rem; font-size: 0.625rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone-400); border: 1px solid rgb(255 255 255 / 0.15); padding: 0.35rem 0.6rem; }
+  @keyframes bob { 50% { translate: -50% 0.4rem; } }
+  @media (max-width: 767.98px) {
+    .hero { min-height: calc(100svh - var(--bar-h)); padding-bottom: 5rem; }
+    .ctas .btn { width: 100%; }
+    .coming { bottom: 0.75rem; right: 0.75rem; }
+  }
+</style>

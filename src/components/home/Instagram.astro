@@ -1,0 +1,52 @@
+---
+import { section, field } from '../../lib/home';
+import { site } from '../../lib/site';
+
+const s = section('INSTAGRAM');
+const embed = site.instagramEmbed?.trim();
+---
+{embed ? (
+  <section id={s.id} class="section">
+    <div class="container">
+      <header class="section-head section-head--center">
+        <a class="kicker" href={site.social.instagram} target="_blank" rel="noopener">{field(s, 'Kicker')}</a>
+        <h2 class="h2">{field(s, 'H2')}</h2>
+      </header>
+      <!-- The embed markup is parked in a <template> and only activated once the feed scrolls near the viewport. -->
+      <div class="feed" data-ig-feed>
+        <template set:html={embed} />
+      </div>
+    </div>
+  </section>
+) : (
+  <span id={s.id} class="anchor-stub"></span>
+)}
+
+<script>
+  const feed = document.querySelector<HTMLElement>('[data-ig-feed]');
+  const tpl = feed?.querySelector('template');
+  if (feed && tpl) {
+    const mount = () => {
+      const frag = tpl.content.cloneNode(true) as DocumentFragment;
+      // Scripts cloned from a template do not run; rebuild them so the widget loads.
+      frag.querySelectorAll('script').forEach((old) => {
+        const s = document.createElement('script');
+        [...old.attributes].forEach((a) => s.setAttribute(a.name, a.value));
+        s.textContent = old.textContent;
+        old.replaceWith(s);
+      });
+      feed.replaceChildren(frag);
+    };
+    new IntersectionObserver((entries, io) => {
+      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); mount(); }
+    }, { rootMargin: '600px' }).observe(feed);
+  }
+</script>
+
+<style>
+  a.kicker { text-decoration: none; }
+  a.kicker:hover { color: var(--stone-900); }
+  /* Reserved height so the feed cannot shift the page when it loads */
+  .feed { min-height: 22rem; }
+  @media (min-width: 768px) { .feed { min-height: 18rem; } }
+</style>

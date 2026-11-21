@@ -1,0 +1,49 @@
+{
+  "service": {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "PAGE_TITLE_SHORT (e.g. Quartz Countertops)",
+    "serviceType": "Countertop fabrication and installation",
+    "provider": {
+      "@id": "https://www.graebridgestonelindon.com/#business"
+    },
+    "areaServed": [
+      {
+        "@type": "AdministrativeArea",
+        "name": "Utah County, UT"
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": "Salt Lake County, UT"
+      },
+      {
+        "@type": "City",
+        "name": "Park City, UT"
+      },
+      {
+        "@type": "City",
+        "name": "Heber City, UT"
+      }
+    ],
+    "url": "https://www.graebridgestonelindon.com/PAGE_SLUG/",
+    "description": "PAGE_META_DESCRIPTION"
+  },
+  "breadcrumb": {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.graebridgestonelindon.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "PAGE_TITLE_SHORT",
+        "item": "https://www.graebridgestonelindon.com/PAGE_SLUG/"
+      }
+    ]
+  }
+}

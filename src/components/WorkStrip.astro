@@ -1,0 +1,33 @@
+---
+// Three client project photos in a row, used after the intro on inner pages.
+import { Picture } from 'astro:assets';
+import type { Photo } from '../lib/photos';
+interface Props { photos: Photo[] }
+const { photos } = Astro.props;
+---
+{photos.length > 0 && (
+  <ul role="list" class="work" aria-label="Recent Graebridge Stone projects">
+    {photos.map((p) => (
+      <li>
+        <Picture
+          src={p.image}
+          formats={['avif', 'webp']}
+          widths={[320, 480, 640, 800].filter((w) => w <= p.image.width)}
+          sizes="(min-width: 768px) 30vw, 92vw"
+          alt={p.alt}
+          loading="lazy"
+        />
+      </li>
+    ))}
+  </ul>
+)}
+
+<style>
+  .work { display: grid; gap: 1rem; margin-block: clamp(2.5rem, 5vw, 3.75rem); }
+  @media (min-width: 768px) { .work { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; } }
+  li { overflow: hidden; background: var(--stone-200); aspect-ratio: 4 / 3; }
+  li :global(picture), li :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  li :global(img) { transition: transform 0.7s var(--ease); }
+  li:hover :global(img) { transform: scale(1.04); }
+  @media (max-width: 767.98px) { li { aspect-ratio: 3 / 2; } }
+</style>

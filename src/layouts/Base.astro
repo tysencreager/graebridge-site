@@ -1,0 +1,125 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import StickyBar from '../components/StickyBar.astro';
+import { site, isSet, isStaging, canonical } from '../lib/site';
+
+interface Props {
+  /** Page title without the brand; " | Graebridge Stone" is appended unless it is already there. */
+  title: string;
+  /** Use the title exactly as given (the hidden SEO pages carry planned, final titles). */
+  exactTitle?: boolean;
+  description: string;
+  /** Canonical path; defaults to the current path. */
+  path?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  jsonld?: object[];
+  noindex?: boolean;
+  isHome?: boolean;
+  /** false renders a bare page with no header, footer, or sticky bar (the interim page). */
+  chrome?: boolean;
+}
+
+const {
+  title,
+  exactTitle = false,
+  description,
+  path = Astro.url.pathname,
+  ogImage = '/images/og-graebridge-stone.jpg',
+  ogType = 'website',
+  jsonld = [],
+  noindex = false,
+  isHome = false,
+  chrome = true,
+} = Astro.props;
+
+const fullTitle = exactTitle || title.includes(site.name) ? title : `${title} | ${site.name}`;
+const url = canonical(path);
+const image = canonical(ogImage);
+const gtm = isSet(site.gtmId) ? site.gtmId : null;
+const callrail = site.callrailSwapSrc?.trim() || null;
+// Feedbucket (review feedback widget): staging builds only.
+const feedbucket = isStaging && site.feedbucketKey?.trim() ? site.feedbucketKey.trim() : null;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+    {(isStaging || noindex) && <meta name="robots" content="noindex" />}
+
+    <link rel="preload" href="/fonts/playfair-display-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#1c1a19" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={image} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image} />
+
+    {jsonld.map((block) => <script is:inline type="application/ld+json" set:html={JSON.stringify(block)} />)}
+
+    {gtm && (
+      <script is:inline define:vars={{ gtm }}>
+        (function (w, d, s, l, i) {
+          w[l] = w[l] || [];
+          w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+          j.async = true;
+          j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+          f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', gtm);
+      </script>
+    )}
+  </head>
+  <body class:list={[{ 'has-bar': chrome }]}>
+    {gtm && (
+      <noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtm}`} height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe></noscript>
+    )}
+    <a class="skip-link" href="#main">Skip to content</a>
+    {chrome && <Header isHome={isHome} />}
+    <main id="main">
+      <slot />
+    </main>
+    {chrome && <Footer />}
+    {chrome && <StickyBar isHome={isHome} />}
+
+    <script is:inline>
+      // Pushes {event, label} to dataLayer for any element carrying data-event (calls, texts, directions).
+      window.dataLayer = window.dataLayer || [];
+      document.addEventListener('click', function (e) {
+        var el = e.target instanceof Element ? e.target.closest('[data-event]') : null;
+        if (el) window.dataLayer.push({ event: el.getAttribute('data-event'), label: el.getAttribute('data-label') || '' });
+      });
+    </script>
+    {callrail && <script is:inline async src={callrail}></script>}
+    {feedbucket && (
+      <script is:inline define:vars={{ feedbucket }}>
+        (function (k) {
+          var s = document.createElement('script');
+          s.defer = true;
+          s.src = 'https://cdn.feedbucket.app/assets/feedbucket.js';
+          s.dataset.feedbucket = k;
+          document.head.appendChild(s);
+        })(feedbucket);
+      </script>
+    )}
+  </body>
+</html>

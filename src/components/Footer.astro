@@ -1,0 +1,92 @@
+---
+import Icon from './Icon.astro';
+import { section, field, split, hrefFor } from '../lib/home';
+import { site, telHref, mailHref, addressLine1, addressLine2, directionsUrl } from '../lib/site';
+
+const footer = section('FOOTER');
+const col1 = field(footer, 'Column 1');
+const tagline = col1.match(/one line:\s*(.+?)\s+·\s+social/)?.[1];
+if (!tagline) throw new Error('home.md: FOOTER "Column 1" needs "one line: ... · social icons: ..."');
+const socialNames = (col1.match(/social icons:\s*(.+)$/)?.[1] ?? '').split(',').map((s) => s.trim());
+const socialUrls: Record<string, string> = { Facebook: site.social.facebook, Instagram: site.social.instagram, Yelp: site.social.yelp };
+const socials = socialNames.filter((n) => socialUrls[n]).map((n) => ({ name: n, url: socialUrls[n] }));
+
+const linkCols = ['Column 2', 'Column 3'].map((key) => ({
+  heading: footer.notes[key.toLowerCase()],
+  links: split(field(footer, key)).map((label) => ({ label, href: hrefFor(label) })),
+}));
+const visitHeading = footer.notes['column 4'];
+
+const bottom = split(field(footer, 'Bottom line'));
+const copyright = bottom[0];
+const privacyLabel = bottom[1];
+const credit = bottom[2]?.match(/^(Site by)\s+(.+?)\s*\(.*?link to\s+([^)\s]+)\)\s*$/);
+const [first, ...rest] = site.name.split(' ');
+---
+<footer class="site-footer">
+  <div class="container">
+    <div class="cols">
+      <div class="brand">
+        <a class="logo" href="/" aria-label={`${site.name} home`}><span class="strong">{first}</span><span>{rest.join(' ')}</span></a>
+        <p>{tagline}</p>
+        <ul class="social" role="list">
+          {socials.map((s) => (
+            <li><a href={s.url} target="_blank" rel="noopener" aria-label={`${site.name} on ${s.name}`}><Icon name={s.name.toLowerCase()} size={22} /></a></li>
+          ))}
+        </ul>
+      </div>
+
+      {linkCols.map((col) => (
+        <nav aria-label={col.heading}>
+          <h2>{col.heading}</h2>
+          <ul role="list">
+            {col.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+          </ul>
+        </nav>
+      ))}
+
+      <div>
+        <h2>{visitHeading}</h2>
+        <ul role="list" class="visit">
+          <li><a href={directionsUrl} target="_blank" rel="noopener" data-event="directions_click" data-label="footer">{addressLine1}<br />{addressLine2}</a></li>
+          <li><a href={telHref} data-event="call_click" data-label="footer">{site.phoneDisplay}</a></li>
+          <li><a href={mailHref}>{site.email}</a></li>
+          <li>{site.hours}<br />{site.hoursClosed}</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <p>{copyright}</p>
+      <p>
+        <a href={hrefFor(privacyLabel)}>{privacyLabel}</a>
+        {credit && (
+          <>
+            <span aria-hidden="true"> · </span>
+            <span class="credit">{credit[1]} <a href={`https://${credit[3]}`} target="_blank" rel="noopener">{credit[2]}</a></span>
+          </>
+        )}
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--stone-950); color: var(--stone-400); padding-block: 4.5rem 2.5rem; border-top: 1px solid var(--stone-900); font-size: 0.9375rem; }
+  .cols { display: grid; gap: 3rem 2.5rem; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .cols { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1024px) { .cols { grid-template-columns: 1.5fr 1fr 1fr 1.2fr; } }
+  .logo { font-family: var(--font-serif); font-size: 1.25rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--stone-300); }
+  .logo .strong { font-weight: 700; }
+  .brand p { margin-top: 1rem; max-width: 22rem; line-height: 1.7; }
+  .social { display: flex; gap: 1.25rem; margin-top: 1.5rem; }
+  .social a { display: inline-flex; padding: 0.35rem; margin: -0.35rem; color: var(--stone-400); transition: color 0.3s; }
+  .social a:hover { color: var(--gold-400); }
+  h2 { font-family: var(--font-sans); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone-200); margin-bottom: 1.25rem; }
+  ul:not(.social) { display: grid; gap: 0.7rem; }
+  a { text-decoration: none; transition: color 0.3s; }
+  a:hover { color: var(--gold-400); }
+  .visit { line-height: 1.6; }
+  .bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; margin-top: 3.5rem; padding-top: 1.75rem; border-top: 1px solid var(--stone-800); font-size: 0.8125rem; }
+  .credit a { text-decoration: underline; text-decoration-color: var(--stone-700); text-underline-offset: 0.2em; }
+</style>

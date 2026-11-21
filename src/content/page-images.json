@@ -1,0 +1,22 @@
+{
+  "_note": "Which client photos appear on each inner page: 'hero' is the header photo, 'work' is the three-photo strip after the intro. File names refer to photos in src/assets/gallery, src/assets/services, and src/assets/work. Photos were matched to pages by look. Nobody has confirmed the material or the location of any project, so Ned should check the material pages (quartz, granite, quartzite and marble, and the soapstone post) in particular. Swap a file name here to change a photo.",
+  "pages": {
+    "quartz-countertops": { "hero": "kitchen-03.jpg", "work": ["kitchen-06.jpg", "bath-09.jpg", "service-specialty.jpg"] },
+    "granite-countertops": { "hero": "kitchen-04.jpg", "work": ["specialty-01.jpg", "kitchen-10.jpg", "bath-10.jpg"] },
+    "quartzite-marble-countertops": { "hero": "kitchen-01.jpg", "work": ["kitchen-02.jpg", "bath-01.jpg", "bath-02.jpg"] },
+    "kitchen-countertops": { "hero": "service-kitchen.jpg", "work": ["kitchen-11.jpg", "kitchen-07.jpg", "kitchen-05.jpg"] },
+    "bathroom-countertops-vanities": { "hero": "service-bath.jpg", "work": ["bath-05.jpg", "bath-04.jpg", "bath-03.jpg"] },
+    "countertops-utah-county": { "hero": "kitchen-12.jpg", "work": ["kitchen-08.jpg", "specialty-06.jpg", "bath-11.jpg"] },
+    "countertops-salt-lake-city": { "hero": "specialty-02.jpg", "work": ["bath-07.jpg", "kitchen-13.jpg", "specialty-05.jpg"] },
+    "countertops-park-city-heber": { "hero": "specialty-03.jpg", "work": ["kitchen-15.jpg", "bath-08.jpg", "bath-06.jpg"] }
+  },
+  "blog": {
+    "3-reasons-to-consider-granite-for-your-kitchen-countertops": { "hero": "kitchen-10.jpg", "work": ["kitchen-04.jpg", "specialty-01.jpg", "kitchen-13.jpg"] },
+    "3-things-to-consider-before-replacing-kitchen-countertops": { "hero": "kitchen-06.jpg", "work": ["kitchen-01.jpg", "kitchen-07.jpg", "kitchen-08.jpg"] },
+    "common-reasons-homeowners-replace-their-kitchen-countertops": { "hero": "kitchen-11.jpg", "work": ["kitchen-12.jpg", "kitchen-02.jpg", "kitchen-09.jpg"] },
+    "how-professionally-installed-quartz-countertops-add-long-term-value": { "hero": "kitchen-03.jpg", "work": ["bath-15.jpg", "kitchen-14.jpg", "bath-12.jpg"] },
+    "the-importance-of-hiring-a-professional-countertop-installer": { "hero": "service-kitchen.jpg", "work": ["bath-03.jpg", "kitchen-15.jpg", "bath-16.jpg"] },
+    "what-makes-soapstone-countertops-a-favorite-for-timeless-kitchen-designs": { "hero": "kitchen-05.jpg", "work": ["kitchen-07.jpg", "specialty-02.jpg", "bath-14.jpg"] },
+    "why-people-are-choosing-quartz-for-their-new-countertops": { "hero": "service-specialty.jpg", "work": ["kitchen-03.jpg", "bath-09.jpg", "bath-13.jpg"] }
+  }
+}

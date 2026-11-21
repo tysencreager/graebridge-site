@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/home/Hero.astro';
+import Trust from '../components/home/Trust.astro';
+import About from '../components/home/About.astro';
+import Materials from '../components/home/Materials.astro';
+import Services from '../components/home/Services.astro';
+import Porcelain from '../components/home/Porcelain.astro';
+import Process from '../components/home/Process.astro';
+import Gallery from '../components/home/Gallery.astro';
+import Reviews from '../components/home/Reviews.astro';
+import Instagram from '../components/home/Instagram.astro';
+import Faq from '../components/home/Faq.astro';
+import ServiceArea from '../components/home/ServiceArea.astro';
+import Contact from '../components/home/Contact.astro';
+import { localBusiness, faqPage } from '../lib/schema';
+
+// All copy on this page is read from src/content/home.md (see src/lib/home.ts).
+---
+<Base
+  title="Custom Countertops in Lindon, Utah | Graebridge Stone"
+  description="Family-owned countertop fabricator in Lindon, Utah. Custom quartz, granite, quartzite, marble, and porcelain, templated, fabricated, and installed. Free estimates."
+  path="/"
+  isHome
+  jsonld={[localBusiness(), faqPage()]}
+>
+  <Hero />
+  <Trust />
+  <About />
+  <Materials />
+  <Services />
+  <Porcelain />
+  <Process />
+  <Gallery />
+  <Reviews />
+  <Instagram />
+  <Faq />
+  <ServiceArea />
+  <Contact />
+</Base>

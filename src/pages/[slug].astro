@@ -1,0 +1,72 @@
+---
+// One template for the eight hidden SEO pages in src/content/pages/.
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import WorkStrip from '../components/WorkStrip.astro';
+import { proseHtml, firstSentence, splitIntro } from '../lib/prose';
+import { pagePhotos } from '../lib/photos';
+import { hiddenPage } from '../lib/schema';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  return pages.map((entry) => ({ params: { slug: entry.id }, props: { entry, all: pages } }));
+}
+
+const { entry, all } = Astro.props;
+const { data } = entry;
+const path = `/${entry.id}/`;
+if (data.slug !== path) throw new Error(`${entry.id}.md: frontmatter slug "${data.slug}" does not match the file name`);
+
+const isArea = data.section === 'Service Areas';
+const name = isArea ? `Countertops in ${data.short_title}` : data.short_title;
+const body = (entry.body ?? '').replace(/^\s*#{1,2} .*\n/, '');
+const [introHtml, restHtml] = splitIntro(proseHtml(entry.rendered?.html ?? '', data.h1));
+const photos = pagePhotos('pages', entry.id);
+
+const order = ['Materials', 'Services', 'Service Areas'];
+const related = all
+  .filter((p) => p.id !== entry.id)
+  .sort((a, b) => order.indexOf(a.data.section) - order.indexOf(b.data.section));
+---
+<Base title={data.title} exactTitle description={data.meta_description} path={path} jsonld={hiddenPage(entry.id, name, data.meta_description)}>
+  <PageHero
+    kicker={data.section}
+    title={data.h1}
+    intro={firstSentence(body)}
+    crumbs={[{ label: 'Home', href: '/' }, { label: data.short_title }]}
+    photo={photos.hero}
+  />
+
+  <article class="section body">
+    <div class="container">
+      {introHtml && <div class="prose" set:html={introHtml} />}
+      <WorkStrip photos={photos.work} />
+      <div class="prose" set:html={restHtml} />
+    </div>
+  </article>
+
+  <aside class="related" aria-labelledby="related-heading">
+    <div class="container">
+      <h2 id="related-heading" class="kicker">Related</h2>
+      <ul role="list">
+        {related.map((p) => (
+          <li><a href={`/${p.id}/`}>{p.data.section === 'Service Areas' ? `Countertops in ${p.data.short_title}` : p.data.short_title}</a></li>
+        ))}
+        <li><a href="/#gallery">Project Gallery</a></li>
+        <li><a href="/#contact">Request a Free Estimate</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .body { background: var(--white); padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .related { background: var(--stone-100); border-block: 1px solid var(--stone-200); padding-block: 3rem; }
+  .related ul { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+  .related a { display: inline-block; padding: 0.7rem 1.2rem; background: var(--white); border: 1px solid var(--stone-200); font-size: 0.875rem; color: var(--stone-900); text-decoration: none; transition: border-color 0.3s, background-color 0.3s; }
+  .related a:hover { border-color: var(--gold-400); background: var(--stone-50); }
+</style>

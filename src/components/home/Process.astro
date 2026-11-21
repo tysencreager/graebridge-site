@@ -1,0 +1,76 @@
+---
+import T from '../T.astro';
+import { section, field, list } from '../../lib/home';
+const s = section('PROCESS');
+const steps = list(s, 'Steps');
+---
+<section id={s.id} class="section process" data-process>
+  <div class="container">
+    <header class="section-head">
+      <span class="rule"></span>
+      <span class="kicker">{field(s, 'Kicker')}</span>
+      <h2 class="h2">{field(s, 'H2')}</h2>
+    </header>
+
+    <ol role="list" class="timeline">
+      {steps.map((step, i) => (
+        <li style={`--i:${i}`}>
+          <span class="node" aria-hidden="true">{String(step.n ?? i + 1).padStart(2, '0')}</span>
+          <div class="body">
+            <h3>{step.title}</h3>
+            <p><T text={step.body} /></p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<script>
+  // Plays the timeline once, when the section scrolls into view. Without JS, or with reduced motion,
+  // the finished timeline is simply shown.
+  const el = document.querySelector<HTMLElement>('[data-process]');
+  if (el && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.classList.add('will-animate');
+    new IntersectionObserver(
+      (entries, io) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          el.classList.add('in-view');
+          io.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    ).observe(el.querySelector('.timeline') ?? el);
+  }
+</script>
+
+<style>
+  .timeline { --node: 3.5rem; --step: 0.3s; display: grid; }
+  li { position: relative; display: grid; grid-template-columns: var(--node) 1fr; column-gap: 1.5rem; padding-bottom: 2.75rem; }
+  li:last-child { padding-bottom: 0; }
+
+  /* Connector to the next step: a grey track with a gold line drawn over it */
+  li:not(:last-child)::before, li:not(:last-child)::after { content: ''; position: absolute; left: calc(var(--node) / 2 - 1px); top: var(--node); bottom: 0; width: 2px; }
+  li::before { background: var(--stone-300); }
+  li::after { background: var(--gold-400); transform-origin: top left; transition: transform var(--step) linear calc(var(--i) * var(--step) * 2 + var(--step)); }
+
+  .node { position: relative; z-index: 1; display: grid; place-items: center; width: var(--node); height: var(--node); border-radius: 50%; background: var(--gold-400); border: 2px solid var(--gold-400); color: var(--stone-900); font-family: var(--font-serif); font-style: italic; font-size: 1.125rem; transition: background-color 0.4s, border-color 0.4s, transform 0.4s var(--ease); transition-delay: calc(var(--i) * var(--step) * 2); }
+  li:hover .node { transform: scale(1.08); transition-delay: 0s; }
+  .body { padding-top: 0.6rem; transition: opacity 0.6s ease, transform 0.6s var(--ease); transition-delay: calc(var(--i) * var(--step) * 2 + 0.1s); }
+  h3 { font-family: var(--font-serif); font-weight: 400; font-size: 1.5rem; color: var(--stone-900); }
+  p { margin-top: 0.6rem; font-size: 0.9375rem; color: var(--stone-600); max-width: 34rem; }
+
+  /* Waiting to play: empty nodes, no gold line, copy tucked down */
+  .will-animate:not(.in-view) .node { background: var(--stone-50); border-color: var(--stone-300); }
+  .will-animate:not(.in-view) li::after { transform: scaleY(0); }
+  .will-animate:not(.in-view) .body { opacity: 0; transform: translateY(1rem); }
+
+  @media (min-width: 1024px) {
+    .timeline { --step: 0.45s; grid-template-columns: repeat(4, 1fr); column-gap: 2.5rem; }
+    li { display: block; padding-bottom: 0; }
+    li:not(:last-child)::before, li:not(:last-child)::after { left: var(--node); right: -2.5rem; top: calc(var(--node) / 2 - 1px); bottom: auto; width: auto; height: 2px; }
+    .will-animate:not(.in-view) li::after { transform: scaleX(0); }
+    .body { padding-top: 1.75rem; padding-right: 0.5rem; }
+    h3 { font-size: 1.375rem; }
+  }
+</style>

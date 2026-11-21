@@ -1,0 +1,6 @@
+---
+// Renders a line of copy with each hyphenated word (trade-offs, large-format) kept on one line.
+interface Props { text: string }
+const parts = Astro.props.text.split(/([A-Za-z0-9]+(?:-[A-Za-z0-9]+)+)/);
+---
+{parts.map((part, i) => (i % 2 ? <span class="nw">{part}</span> : part))}

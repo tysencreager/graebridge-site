@@ -1,0 +1,23 @@
+---
+import { section, split } from '../../lib/home';
+const s = section('TRUST BAR');
+const items = split(s.lines[0] ?? '');
+if (!items.length) throw new Error('home.md: TRUST BAR needs its line of items');
+---
+<section id={s.id} class="trust" aria-label="Why homeowners choose us">
+  <ul role="list" class="container">
+    {items.map((item) => <li>{item}</li>)}
+  </ul>
+</section>
+
+<style>
+  .trust { background: var(--stone-50); border-block: 1px solid var(--stone-200); }
+  ul { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 0; padding-block: 1.4rem; }
+  li { display: inline-flex; align-items: center; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.14em; text-transform: uppercase; color: var(--stone-700); white-space: nowrap; padding-inline: clamp(0.75rem, 1.6vw, 1.5rem); }
+  li + li::before { content: ''; width: 0.35rem; height: 0.35rem; background: var(--gold-400); transform: rotate(45deg); margin-left: calc(-1 * clamp(0.75rem, 1.6vw, 1.5rem) - 0.175rem); margin-right: clamp(0.75rem, 1.6vw, 1.5rem); }
+  @media (max-width: 767.98px) {
+    ul { gap: 0.6rem 0; padding-block: 1.25rem; }
+    li { font-size: 0.6875rem; letter-spacing: 0.1em; padding-inline: 0.7rem; }
+    li + li::before { display: none; }
+  }
+</style>

@@ -1,0 +1,68 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { Picture } from 'astro:assets';
+import { livePosts, postPath, formatDate } from '../../lib/blog';
+import { pagePhotos } from '../../lib/photos';
+
+const posts = (await livePosts()).map((p) => ({ post: p, thumb: pagePhotos('blog', p.id).hero }));
+---
+<Base
+  title="Countertop Advice and Ideas | Graebridge Stone Blog"
+  description="Articles from Graebridge Stone in Lindon, Utah on choosing, installing, and caring for quartz, granite, soapstone, and other stone countertops."
+  path="/blog/"
+  noindex={posts.length === 0}
+>
+  <PageHero kicker="Blog" title="Countertop Advice from the Shop" crumbs={[{ label: 'Home', href: '/' }, { label: 'Blog' }]} />
+
+  <section class="section list">
+    <div class="container">
+      {posts.length === 0 ? (
+        <p class="empty">Articles are on the way. In the meantime, <a href="/#faq">see the questions we hear every week</a>.</p>
+      ) : (
+        <ul role="list" class="posts">
+          {posts.map(({ post: p, thumb }) => (
+            <li>
+              <article>
+                {thumb && (
+                  <a class="thumb" href={postPath(p)} tabindex="-1" aria-hidden="true">
+                    <Picture src={thumb.image} formats={['avif', 'webp']} widths={[320, 480, 640].filter((w) => w <= thumb.image.width)} sizes="(min-width: 768px) 18rem, 92vw" alt="" loading="lazy" />
+                  </a>
+                )}
+                <div>
+                  <time datetime={p.data.date.toISOString().slice(0, 10)}>{formatDate(p.data.date)}</time>
+                  <h2><a href={postPath(p)}>{p.data.title}</a></h2>
+                  {p.data.description && <p>{p.data.description}</p>}
+                  <a class="link-underline" href={postPath(p)}>Read more<span class="sr-only">: {p.data.title}</span></a>
+                </div>
+              </article>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .list { background: var(--white); padding-block: clamp(3rem, 6vw, 5rem); }
+  .posts { max-width: 60rem; }
+  article { display: grid; gap: 1.5rem; }
+  @media (min-width: 768px) { article { grid-template-columns: 18rem 1fr; gap: 2.5rem; align-items: start; } }
+  .thumb { display: block; overflow: hidden; aspect-ratio: 4 / 3; background: var(--stone-200); }
+  .thumb :global(picture), .thumb :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .thumb :global(img) { transition: transform 0.7s var(--ease); }
+  article:hover .thumb :global(img) { transform: scale(1.04); }
+  .posts li { padding-block: 2.5rem; border-bottom: 1px solid var(--stone-200); }
+  .posts li:first-child { padding-top: 0; }
+  time { font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone-600); }
+  h2 { margin-top: 0.75rem; font-family: var(--font-serif); font-weight: 400; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; text-wrap: balance; }
+  h2 a { color: var(--stone-900); text-decoration: none; }
+  h2 a:hover { text-decoration: underline; text-decoration-color: var(--gold-400); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+  article p { margin: 1rem 0 1.5rem; color: var(--stone-600); }
+  .empty { color: var(--stone-600); }
+  .empty a { color: var(--stone-900); text-decoration-color: var(--gold-400); text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
+</style>
