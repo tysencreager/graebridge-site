@@ -26,20 +26,19 @@ npm run build && npm run preview   # serves dist/ the way SiteGround will, inclu
 ```bash
 npm run check:redirects -- http://localhost:4321                 # all 129 rules, anchors included
 npm run check:redirects -- http://localhost:4321 --skip-anchors  # page-to-page rules only
-npm run check:redirects -- https://claude-graebridge-stone-buil.graebridge-site.pages.dev --allow-308   # Cloudflare answers slash-only rules with 308
+npm run check:redirects -- https://graebridge.elevategrowth.solutions --allow-308   # Cloudflare answers slash-only rules with 308
 ```
 
 Fails on anything other than a 301 to the target in `data/redirects.csv`. 5xx answers and network errors are retried twice; add `--concurrency 2` if a host throttles parallel requests.
 
 ## Deploy to staging (Cloudflare Pages)
 
-Staging URL for the pull request branch: https://claude-graebridge-stone-buil.graebridge-site.pages.dev (noindex). Setup, for reference:
+Staging is https://graebridge.elevategrowth.solutions (also https://graebridge-site.pages.dev). It is built from `main` with noindex on every page and the Feedbucket feedback button.
 
-1. Cloudflare dashboard: Workers & Pages, Create, Pages, Connect to Git, pick this repository.
-2. Production branch: the branch that holds the site. Until the pull request is merged that is `claude/graebridge-stone-build-9g29tm`, not `main` (`main` has no `package.json` yet, so building it fails with "Could not read package.json").
-3. Build command `npm run build`, output directory `dist`.
-4. Environment variables, for both Production and Preview: `PUBLIC_ENV=staging` and `NODE_VERSION=22.23.5`.
-5. Save and deploy. Every push to the branch redeploys. `public/_redirects` gives staging the same 301 map.
+1. Push a branch and open a pull request: Cloudflare builds a preview link for it.
+2. Merge the pull request into `main`: the staging address updates in a minute or two.
+3. Cloudflare settings, for reference: build command `npm run build`, output directory `dist`, and `PUBLIC_ENV=staging` plus `NODE_VERSION=22.23.5` set for both Production and Preview.
+4. `PUBLIC_ENV=staging` is what adds noindex and Feedbucket. Remove it from Production before this Cloudflare project ever serves the live site.
 
 ## Deploy to production (SiteGround)
 
