@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.graebridgestonelindon.com/sitemap-index.xml
+Sitemap: https://www.graebridgestone.com/sitemap-index.xml
