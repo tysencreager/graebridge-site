@@ -1,9 +1,13 @@
 # Graebridge Stone: 301 redirects from the Hibu site. Paste into public_html/.htaccess above the Astro/WordPress rules.
 RewriteEngine On
-# Force https + www (adjust if the new site is non-www)
+# When graebridgestonelindon.com is back on SiteGround, uncomment these two lines to send the fallback domain to it:
+# RewriteCond %{HTTP_HOST} ^(www\.)?graebridgestone\.com$ [NC]
+# RewriteRule ^ https://www.graebridgestonelindon.com%{REQUEST_URI} [L,R=301]
+# Force https + www on whichever host is serving (works for graebridgestone.com now and graebridgestonelindon.com later)
 RewriteCond %{HTTPS} off [OR]
 RewriteCond %{HTTP_HOST} !^www\. [NC]
-RewriteRule ^ https://www.graebridgestonelindon.com%{REQUEST_URI} [L,R=301]
+RewriteCond %{HTTP_HOST} ^(?:www\.)?(.+)$ [NC]
+RewriteRule ^ https://www.%1%{REQUEST_URI} [L,R=301]
 
 # City pages (78) -> three area pages
 RedirectMatch 301 ^/contact/countertops-service-area/alpine-ut/?$ /countertops-utah-county/
